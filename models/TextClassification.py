@@ -72,7 +72,7 @@ def get_dataset(dataset_name):
     return all_dataset
 
 def preprocess_function(examples):
-    return tokenizer(examples["text"], padding="max_length", truncation=True)
+    return tokenizer(examples["text"], truncation=True)
 
 def compute_metrics(eval_pred):
     predictions, labels = eval_pred
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     dataset_name = sys.argv[2]
     all_dataset = get_dataset(dataset_name)
     
-    tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
+    tokenizer = AutoTokenizer.from_pretrained("roberta-base")
     
     tokenized_all_dataset = all_dataset.map(preprocess_function,batched= True)
     
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     id2label = {i: "Label_"+str(i)  for i in range(len(label_names))}
     
     model = AutoModelForSequenceClassification.from_pretrained(
-        "distilbert-base-uncased", num_labels=len(label_names), id2label=id2label, label2id=label2id
+        "roberta-base", num_labels=len(label_names), id2label=id2label, label2id=label2id
     )
     
     training_args = TrainingArguments(

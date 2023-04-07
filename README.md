@@ -42,25 +42,30 @@ Repository to contain the code for 696DS project (Spr 2023)
 **Note:** One can choose different directory path for saving finetuned model checkpoints, prediction and slurm outputs. But, I highly recommend to follow the above folder structure as we gonna work on each workspaces in future.
 
 ## Script Commands:
+  Before running any of the following command, change your working directory to scripts folder
   - For Finetuning:
 
     - CLINC:
 
-      ```sbatch scripts/finetune_clinc.sh {clinc_subset} /path/to/checkpoint```
+
+      ```sbatch finetune_clinc.sh {clinc_subset} /path/to/checkpoint```
 
     - SNIPS:
 
-      ```sbatch scripts/finetune_snips.sh /path/to/checkpoint```
+      ```sbatch finetune_snips.sh /path/to/checkpoint```
+
 
   - For Evaluation:
     
     - CLINC:
 
-      ```sbatch scripts/eval_clinc.sh {clinc_subset} /path/to/checkpoint /path/to/prediction/{fileName}.csv```
+
+      ```sbatch eval_clinc.sh {clinc_subset} /path/to/checkpoint /path/to/prediction/{fileName}.csv```
 
     - SNIPS:
 
-      ```sbatch scripts/eval_snips.sh /path/to/checkpoint /path/to/prediction/{fileName}.csv```
+      ```sbatch eval_snips.sh /path/to/checkpoint /path/to/prediction/{fileName}.csv```
+
 
     ***Note:*** For more details about the scripts, checkout the readme file in the scripts folder.
 

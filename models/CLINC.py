@@ -1,13 +1,13 @@
 from datasets import load_dataset
 from transformers import TrainingArguments
-from main import finetune, eval, preprocess_function
+from main import finetune, eval, preprocess_function, calc_entropy_loss
 from sys import argv as args
 from pathlib import Path
 
 
 # variables
 dataset_name = 'clinc_oos'
-function_names = ['eval', 'finetune']
+function_names = ['eval', 'finetune', 'calc_entropy_loss']
 dataset_configs = ['small', 'imbalanced', 'plus']
 
 
@@ -94,3 +94,24 @@ if __name__ == "__main__":
         eval(test_data, checkpoints_out_dir, predictions_out_dir)
 
         print("evaluating model: END")
+
+    elif function_name == 'calc_entropy_loss':
+        if len(args) < 4:
+            raise Exception("Please provide checkpoints_out_dir argument")
+
+        if len(args) < 5:
+            raise Exception("Please provide entropy_analysis_path argument")
+
+        checkpoints_out_dir = args[3]
+        entropy_analysis_path = args[4]
+
+        # log statements
+        print("Calculating entropy loss: START")
+        print("dataset", dataset_name)
+        print("dataset_config", dataset_config)
+        print("checkpoints_out_dir", Path(checkpoints_out_dir).absolute())
+
+        test_data = dataset['test']
+        calc_entropy_loss(test_data, checkpoints_out_dir, entropy_analysis_path)
+
+        print("Calculating entropy loss: END")   

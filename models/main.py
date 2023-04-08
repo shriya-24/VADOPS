@@ -7,7 +7,11 @@ from transformers import pipeline
 from datasets import Dataset
 import pandas as pd
 from sklearn.metrics import classification_report
+
 import torch
+from torch.utils.data import DataLoader, TensorDataset
+from torch.nn.functional import cross_entropy
+
 from pathlib import Path
 
 # variables
@@ -107,6 +111,66 @@ def eval(test_data: Dataset, checkpoints_out_dir: str, predictions_out_dir: str)
     print("Report for each class eval metrics is generated and saved at:",
           Path(predictions_out_dir).absolute())
     return
+
+
+def calc_entropy_loss(test_data: Dataset, checkpoints_out_dir: str, entropy_analysis_path: str):
+    """Calcualting the entropy loss for each sentence and save the analysis as csv format at specified
+    entropy_analysis_path 
+
+    Args:
+        test_data (Dataset): dataset should have label column specifying the classification
+        checkpoints_out_dir (str): specify the model checkpoint you wanna evaluate
+        predictions_out_dir (str): Specify the filepath to save the cross entropy analysis with the .csv extension to ensure OS understandability, as the pd.to_csv() method converts the data into a CSV format but does not automatically save it with the .csv file extension.
+    """
+    # Load the tokenizer and the model from saved checkpoint
+    tokenizer = AutoTokenizer.from_pretrained(checkpoints_out_dir)
+    model = AutoModelForSequenceClassification.from_pretrained(checkpoints_out_dir)
+
+    # set model to device
+    model.to(device)
+
+    # set the model to evaluation mode
+    model.eval()
+
+    # tokenizing the test dataset
+    test_encodings = tokenizer(test_data['text'], truncation=True, padding=True, return_tensors='pt')
+
+    # create batches
+    batch_size = 16
+    test_dataset = TensorDataset(test_encodings['input_ids'], test_encodings['attention_mask'], torch.tensor(test_data["label"]))
+    test_dataloader = DataLoader(test_dataset, batch_size=batch_size)
+
+    losses = []
+    predicted_labels = []
+    true_labels = []
+
+    # calculating the cross entropy for each sentence
+    for batch in test_dataloader:
+        # Unpack the batch and move it to GPU
+        input_ids, attention_mask, batch_true_labels = tuple(t.to(device) for t in batch)
+        
+        # forward pass
+        with torch.no_grad():
+            outputs = model(input_ids, attention_mask=attention_mask)
+            logits = outputs.logits
+            batch_predicted_labels = torch.argmax(logits, axis = 1)
+            
+            # calculate the entropy loss
+            batch_loss = cross_entropy(logits, batch_true_labels, reduction='none')
+            
+            losses.extend(batch_loss.tolist())
+            predicted_labels.extend(batch_predicted_labels.tolist())
+            true_labels.extend(batch_true_labels.tolist())
+
+    # Save calculated entropy loss as csv file
+    df = pd.DataFrame([true_labels, predicted_labels, losses])
+    df = df.transpose()
+    df.columns = ['True_Label_Index', 'Predicted_Label_Index', 'Entropy Loss']
+    df = df.reset_index().rename(columns={'index': 'Test_Data_Index'})
+    df.insert(df.columns.get_loc('Test_Data_Index') + 1, 'Text', [test_data['text'][i] for i in df['Test_Data_Index']])
+    df.insert(df.columns.get_loc('Text') + 1, 'True Label', [model.config.id2label[l] for l in df['True_Label_Index']])
+    df.insert(df.columns.get_loc('Predicted_Label_Index') + 1, 'Predicted Label', [model.config.id2label[l] for l in df['Predicted_Label_Index']])
+    df.to_csv(entropy_analysis_path, index = False)
 
 
 def preprocess_function(examples):

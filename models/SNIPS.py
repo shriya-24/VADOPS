@@ -2,9 +2,9 @@ from urllib.request import urlretrieve
 from pathlib import Path
 import pandas as pd
 
-from datasets import load_dataset, DatasetDict, Dataset
+from datasets import load_dataset, DatasetDict
 from transformers import TrainingArguments
-from main import finetune, eval, preprocess_function
+from main import finetune, eval, preprocess_function, calc_entropy_loss
 from sys import argv as args
 import os
 
@@ -13,7 +13,7 @@ from datasets import DatasetDict, ClassLabel
 
 # variables
 dataset_name = 'SNIPS'
-function_names = ['eval', 'finetune', 'download']
+function_names = ['eval', 'finetune', 'download', 'calc_entropy_loss']
 dataset_types = ["train", "validation", "test"]
 snips_data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../data/snips/'))
 
@@ -171,3 +171,26 @@ if __name__ == "__main__":
         print("Downloading dataset: START")
         download_data()
         print("Downloading dataset: END")
+
+    elif function_name == 'calc_entropy_loss':
+        if len(args) < 3:
+            raise Exception("Please provide checkpoints_out_dir argument")
+
+        if len(args) < 4:
+            raise Exception("Please provide entropy_analysis_path argument")
+
+        checkpoints_out_dir = args[2]
+        entropy_analysis_path = args[3]
+
+        # load dataset
+        dataset = load_data()
+
+        # log statements
+        print("Calculating entropy loss: START")
+        print("dataset", dataset_name)
+        print("checkpoints_out_dir", Path(checkpoints_out_dir).absolute())
+
+        test_data = dataset['test']
+        calc_entropy_loss(test_data, checkpoints_out_dir, entropy_analysis_path)
+
+        print("Calculating entropy loss: END")   

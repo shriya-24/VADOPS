@@ -47,21 +47,25 @@ Repository to contain the code for 696DS project (Spr 2023)
 
     - CLINC:
 
+
       ```sbatch finetune_clinc.sh {clinc_subset} /path/to/checkpoint```
 
     - SNIPS:
 
       ```sbatch finetune_snips.sh /path/to/checkpoint```
 
+
   - For Evaluation:
     
     - CLINC:
+
 
       ```sbatch eval_clinc.sh {clinc_subset} /path/to/checkpoint /path/to/prediction/{fileName}.csv```
 
     - SNIPS:
 
       ```sbatch eval_snips.sh /path/to/checkpoint /path/to/prediction/{fileName}.csv```
+
 
     ***Note:*** For more details about the scripts, checkout the readme file in the scripts folder.
 

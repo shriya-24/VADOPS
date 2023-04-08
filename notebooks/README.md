@@ -28,6 +28,15 @@ We use this directory for jupyter notebooks.
 - **Note:**  For evaluation, the dataset_subset should be the same with dataset_subset the checkpoint model is finetuned.
 
 
+## calc_entropy_loss_clinc.ipynb
+- calculates entropy loss for each sentence for the test data and saves the predicted label, entropy loss in the specified  `entropy_analysis_path`
+
+- Based on your requirements, make changes to the variables:  `checkpoints_out_dir, dataset_subset, entropy_analysis_path`
+  - check `dataset_subset` variable - this specifies which dataset subset you wanna use from 'CLINC'. and options are ['small', 'imbalanced', 'plus']
+  - check `checkpoints_out_dir` variable - mention of checkpoint you wanna use to load the model
+  - check `entropy_analysis_path` variable - this where the entropy loss, predicted label for each sentence are saved in csv format.(make sure the directory exists)
+- **Note:**  For calculation of entropy, the dataset_subset should be the same with dataset_subset the checkpoint model is finetuned.
+
 
 
 

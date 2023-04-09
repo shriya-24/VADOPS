@@ -1,0 +1,25 @@
+"Ask voice assistant in different ways to order an item from amazon"
+1. "Order [item] from Amazon."
+2. "Can you purchase [item] from Amazon for me?"
+3. "Buy [item] on Amazon."
+4. "Get me [item] from Amazon."
+
+"Ask Google assistant in various ways to show directions to Amherst MA"
+Google Assistant: Sure, here are directions to Amherst MA.
+
+"ask to call Joe in different ways to a voice assistant"
+1. Call Joe.
+2. Dial Joe.
+3. Place a call to Joe.
+4. Connect me to Joe.
+5. Reach out to Joe.
+6. Ring Joe.
+7. Get in touch with Joe.
+
+"Ask voice assistant in different ways the ingredient list for making ratatouille"
+1. Ask Alexa for the ingredients to make ratatouille
+2. Ask Siri what ingredients are needed for ratatouille
+3. Ask Google what do I need to make ratatouille
+
+"Ask Alexa in fun ways to quickly summarize the events on the calender today"
+"Today you have a busy day ahead! You have a meeting at 9am, lunch at 12pm, and a conference call at 3pm. Don't forget to take a break in between to recharge!"

@@ -47,7 +47,6 @@ Repository to contain the code for 696DS project (Spr 2023)
 
     - CLINC:
 
-
       ```sbatch finetune_clinc.sh {clinc_subset} /path/to/checkpoint```
 
     - SNIPS:
@@ -59,12 +58,21 @@ Repository to contain the code for 696DS project (Spr 2023)
     
     - CLINC:
 
-
       ```sbatch eval_clinc.sh {clinc_subset} /path/to/checkpoint /path/to/prediction/{fileName}.csv```
 
     - SNIPS:
 
       ```sbatch eval_snips.sh /path/to/checkpoint /path/to/prediction/{fileName}.csv```
+
+  - For Calculating Entropy Loss:
+    
+    - CLINC:
+
+      ```sbatch calc_entropy_loss_clinc.sh {clinc_subset} /path/to/checkpoint /path/to/entropy_analysis_dir/{fileName}.csv```
+
+    - SNIPS:
+
+      ```sbatch calc_entropy_loss_snips.sh /path/to/checkpoint /path/to/entropy_analysis_dir/{fileName}.csv```
 
 
     ***Note:*** For more details about the scripts, checkout the readme file in the scripts folder.

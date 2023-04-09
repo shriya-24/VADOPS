@@ -19,8 +19,8 @@ python ../models/SNIPS.py eval $1 $2
 
 # Examples
 # Using python: python ../models/SNIPS.py eval /path/to/checkpoint /path/to/prediction/{fileName}.csv
-# Using python: python ../models/SNIPS.py eval ../checkpoints/snips/checkpoint-10468/ ../predictions/snips.csv
+# Using python: python ../models/SNIPS.py eval ../checkpoints/snips/checkpoint-26170/ ../predictions/snips.csv
 
 # Using bash: sbatch eval_snips.sh /path/to/checkpoint /path/to/prediction/{fileName}.csv
-# Using bash: sbatch eval_snips.sh ../checkpoints/snips/checkpoint-10468/ ../predictions/snips.csv
+# Using bash: sbatch eval_snips.sh ../checkpoints/snips/checkpoint-26170/ ../predictions/snips.csv
 

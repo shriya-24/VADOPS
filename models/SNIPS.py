@@ -94,10 +94,11 @@ if __name__ == "__main__":
     1. function_name: there are two functions. 
       a. train - to train the model 
       b. eval - to evaluate the model
-    2. checkpoints_out_dir: 
+    2. dataset_type: Options are "train", "validation", "test"
+    3. checkpoints_out_dir: 
       a. for train function, it is used to save the checkpoint 
       b. for eval function, it is used to pick the model
-    3. predictions_out_dir: 
+    4. predictions_out_dir: 
       a. for train function - not required
       b. for eval function - file path is required, this is evaluation metrics for each class is saved
     """
@@ -145,14 +146,18 @@ if __name__ == "__main__":
         print("Finetuning model: END")
 
     elif function_name == 'eval':
-        if len(args) < 3:
+        if len(args) < 3 or args[2] not in dataset_types:
+            raise Exception("Please provide valid dataset_type argument")
+        
+        if len(args) < 4:
             raise Exception("Please provide checkpoints_out_dir argument")
 
-        if len(args) < 4:
+        if len(args) < 5:
             raise Exception("Please provide predictions_out_dir argument")
 
-        checkpoints_out_dir = args[2]
-        predictions_out_dir = args[3]
+        dataset_type = args[2]
+        checkpoints_out_dir = args[3]
+        predictions_out_dir = args[4]
 
         # load dataset
         dataset = load_data()
@@ -162,8 +167,8 @@ if __name__ == "__main__":
         print("dataset", dataset_name)
         print("checkpoints_out_dir", Path(checkpoints_out_dir).absolute())
 
-        test_data = dataset['test']
-        eval(test_data, checkpoints_out_dir, predictions_out_dir)
+        dataset = dataset[dataset_type]
+        eval(dataset, checkpoints_out_dir, predictions_out_dir)
 
         print("evaluating model: END")
 
@@ -173,14 +178,18 @@ if __name__ == "__main__":
         print("Downloading dataset: END")
 
     elif function_name == 'calc_entropy_loss':
-        if len(args) < 3:
+        if len(args) < 3 or args[2] not in dataset_types:
+            raise Exception("Please provide valid dataset_type argument")
+        
+        if len(args) < 4:
             raise Exception("Please provide checkpoints_out_dir argument")
 
-        if len(args) < 4:
+        if len(args) < 5:
             raise Exception("Please provide entropy_analysis_path argument")
 
-        checkpoints_out_dir = args[2]
-        entropy_analysis_path = args[3]
+        dataset_type = args[2]
+        checkpoints_out_dir = args[3]
+        entropy_analysis_path = args[4]
 
         # load dataset
         dataset = load_data()
@@ -190,7 +199,7 @@ if __name__ == "__main__":
         print("dataset", dataset_name)
         print("checkpoints_out_dir", Path(checkpoints_out_dir).absolute())
 
-        test_data = dataset['test']
-        calc_entropy_loss(test_data, checkpoints_out_dir, entropy_analysis_path)
+        dataset = dataset[dataset_type]
+        calc_entropy_loss(dataset, checkpoints_out_dir, entropy_analysis_path)
 
         print("Calculating entropy loss: END")   

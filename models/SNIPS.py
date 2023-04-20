@@ -125,10 +125,6 @@ if __name__ == "__main__":
               '-This is where the Finetuning checkpoints will be saved')
         train_data, valid_data = dataset['train'], dataset['validation']
 
-        # tokenizing the data
-        train_data = train_data.map(preprocess_function, batched=True)
-        valid_data = valid_data.map(preprocess_function, batched=True)
-
         training_args = TrainingArguments(
             output_dir=checkpoints_out_dir,
             learning_rate=2e-5,

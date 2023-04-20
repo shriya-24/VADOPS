@@ -22,6 +22,8 @@ Repository to contain the code for 696DS project (Spr 2023)
 │   ├── eval_clinc.ipynb
 │   └── finetune_clinc.ipynb
 ├── predictions
+├── training_dynamics
+├── datamap_graphs
 └── scripts
     ├── README.md
     ├── eval_clinc.sh
@@ -38,6 +40,8 @@ Repository to contain the code for 696DS project (Spr 2023)
   - scripts: contains finetuning and evaluation scripts for datasets. Also contains `logs` subfolder(to save the slurm output)
   - checkpoints: to save finetuned model checkpoints
   - predictions: to save prediction results of the checkpoint model passed
+  - training_dynamics: to save the training_dynamics during the finetuning
+  - datamap_graphs: this is where we save the datamap graphs for a model using the training_dynamics
 
 **Note:** One can choose different directory path for saving finetuned model checkpoints, prediction and slurm outputs. But, I highly recommend to follow the above folder structure as we gonna work on each workspaces in future.
 
@@ -52,6 +56,15 @@ Repository to contain the code for 696DS project (Spr 2023)
     - SNIPS:
 
       ```sbatch finetune_snips.sh /path/to/checkpoint```
+
+  - For Finetuning along with Dataset Cartography:
+
+    - CLINC:
+        ```sbatch finetune_clinc_cartography.sh {clinc_subset} /path/to/checkpoint {cartography_split} {log_training_dynamics_dir}```
+
+    - SNIPS:
+
+      ```sbatch finetune_snips_cartography.sh /path/to/checkpoint {cartography_split} {log_training_dynamics_dir}```
 
 
   - For Evaluation:

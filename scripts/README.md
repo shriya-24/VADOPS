@@ -44,6 +44,39 @@ All the scripts load conda and activate vadops environment(`/work/pi_adrozdov_um
 
     ```sbatch finetune_snips.sh ../checkpoints/snips```
 
+## finetune_clinc_cartography.sh
+  - calls finetune method in `models/CLINC.py` file.
+  - Need 2 command args:
+    - dataset_subset: specify clinc dataset subset you wanna choose. options are ['small', 'imbalanced', 'plus']
+    - checkpoints_out_dir: specify filepath where you want finetuning checkpoint to be saved
+    - cartography_split: Specify the dataset split from ['train', 'validation'] for which you gonna log the training dynamics
+    - log_training_dynamics_dir: specify the dir path to store the training dynamics
+   
+
+    Command: 
+    
+    ```sbatch finetune_clinc_cartography.sh {clinc_subset} /path/to/checkpoint {cartography_split} {log_training_dynamics_dir}```
+
+    Example: 
+    
+    ```sbatch finetune_clinc_cartography.sh small ../checkpoints/clinc_small train ../training_dynamics/clinc_small```
+
+
+## finetune_snips_cartography.sh
+  - calls finetune method in `models/SNIPS.py` file.
+  - Need 1 command arg:
+    - checkpoints_out_dir: specify filepath where you want finetuning checkpoint to be saved
+    - cartography_split: Specify the dataset split from ['train', 'validation'] for which you gonna log the training dynamics
+    - log_training_dynamics_dir: specify the dir path to store the training dynamics
+
+    Command:
+    
+    ```sbatch finetune_snips_cartography.sh /path/to/checkpoint {cartography_split} {log_training_dynamics_dir}```
+
+    Example:
+
+    ```sbatch finetune_snips_cartography.sh ../checkpoints/snips train ../training_dynamics/snips```
+
 
 ## eval_clinc.sh 
   - calls eval method in `models/CLINC.py` file. 

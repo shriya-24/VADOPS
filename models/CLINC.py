@@ -17,16 +17,25 @@ if __name__ == "__main__":
     Processing the argument parameters. Currently it requires 
     Args:
     1. function_name: there are two functions. 
-      a. train - to train the model 
+      a. finetune - to train the model 
       b. eval - to evaluate the mode
+      c. calc_entropy_loss - to calculate the entropy loss for each sentence
     2. dataset_config: CLINC has 3 subsets. so specify which subset you wanna pick. Options are a. small b. imbalanced c. plus
     3. dataset_type: Options are "train", "validation", "test"
     4. checkpoints_out_dir: 
-      a. for train function, it is used to save the checkpoint 
+      a. for finetune function, it is used to save the checkpoint 
       b. for eval function, it is used to pick the model
     5. predictions_out_dir: 
-      a. for train function - not required
+      a. for finetune function - not required
       b. for eval function - file path is required, this is evaluation metrics for each class is saved
+    6. entropy_analysis_path:
+      a. for calc_entropy_loss - file path is required, this is where the entropy of each sentence is saved
+    7. log_training_dynamics:
+      a. for finetune function - Please specify whether you wanna log the training dynamics or not. values are either True or False. By default it is False
+    8. cartography_split
+      a. for finetune function - Specify the dataset split from ['train', 'validation']. By default the value is train
+    9. log_training_dynamics_dir
+      a. for finetune function - specify the dir path to store the training dynamics
     """
 
     if len(args) < 2 or args[1] not in function_names:
@@ -46,6 +55,29 @@ if __name__ == "__main__":
     if function_name == 'finetune':
         if len(args) < 4:
             raise Exception("Please provide checkpoints_out_dir argument")
+        
+        log_training_dynamics = False
+        cartography_split = 'train'
+        log_training_dynamics_dir = None
+        
+        # check for the optional arguments
+        if len(args) >= 5:
+            if args[4] not in ['False', 'True']:
+                raise Exception("Please provide either True or False value for log_training_dynamics argument")
+            
+            log_training_dynamics = bool(args[4])
+
+            # training dynamics logging is enabled
+            if log_training_dynamics:
+                if (len(args) < 6 or args[5] not in ['train', 'validation']):
+                    raise Exception("Please provide proper dataset split([train, validation]) value to log the training dynamics")
+            
+                cartography_split = args[5]
+            
+                if len(args) < 7:
+                    raise Exception("Please specify log_training_dynamics_dir to save the training dynamics")
+                
+                log_training_dynamics_dir = args[6]
 
         checkpoints_out_dir = args[3]
         # log statements
@@ -54,6 +86,10 @@ if __name__ == "__main__":
         print("dataset_config", dataset_config)
         print("checkpoints_out_dir", Path(checkpoints_out_dir).absolute(),
               '-This is where the Finetuning checkpoints will be saved')
+        print('log_training_dynamics', log_training_dynamics)
+        print('cartography_split', cartography_split)
+        print("log_training_dynamics_dir", log_training_dynamics_dir)
+
         train_data, valid_data = dataset['train'], dataset['validation']
 
         # initialising the training_args
@@ -69,7 +105,7 @@ if __name__ == "__main__":
             load_best_model_at_end=True
         )
 
-        finetune(training_args, train_data, valid_data)
+        finetune(training_args, train_data, valid_data, log_training_dynamics=log_training_dynamics, cartography_split=cartography_split, log_training_dynamics_dir=log_training_dynamics_dir)
         print("Training model: END")
 
     elif function_name == 'eval':

@@ -92,15 +92,24 @@ if __name__ == "__main__":
     Processing the argument parameters. Currently it requires 
     Args:
     1. function_name: there are two functions. 
-      a. train - to train the model 
+      a. finetune - to train the model 
       b. eval - to evaluate the model
+      c. calc_entropy_loss - to calculate the entropy loss for each sentence
     2. dataset_type: Options are "train", "validation", "test"
     3. checkpoints_out_dir: 
-      a. for train function, it is used to save the checkpoint 
+      a. for finetune function, it is used to save the checkpoint 
       b. for eval function, it is used to pick the model
     4. predictions_out_dir: 
-      a. for train function - not required
+      a. for finetune function - not required
       b. for eval function - file path is required, this is evaluation metrics for each class is saved
+    5. entropy_analysis_path:
+      a. for calc_entropy_loss - file path is required, this is where the entropy of each sentence is saved
+    6. log_training_dynamics:
+      a. for finetune function - Please specify whether you wanna log the training dynamics or not. values are either True or False. By default it is False
+    7. cartography_split
+      a. for finetune function - Specify the dataset split from ['train', 'validation']. By default the value is train
+    8. log_training_dynamics_dir
+      a. for finetune function - specify the dir path to store the training dynamics
     """
 
     if len(args) < 2 or args[1] not in function_names:
@@ -113,6 +122,30 @@ if __name__ == "__main__":
         if len(args) < 3:
             raise Exception("Please provide checkpoints_out_dir argument")
 
+        log_training_dynamics = False
+        cartography_split = 'train'
+        log_training_dynamics_dir = None
+        
+        # check for the optional arguments
+        if len(args) >= 4:
+            if args[3] not in ['False', 'True']:
+                raise Exception("Please provide either True or False value for log_training_dynamics argument")
+            
+            log_training_dynamics = bool(args[3])
+
+            # training dynamics logging is enabled
+            if log_training_dynamics:
+                if (len(args) < 5 or args[4] not in ['train', 'validation']):
+                    raise Exception("Please provide proper dataset split([train, validation]) value to log the training dynamics")
+            
+                cartography_split = args[4]
+            
+                if len(args) < 6:
+                    raise Exception("Please specify log_training_dynamics_dir to save the training dynamics")
+                
+                log_training_dynamics_dir = args[5]
+
+
         checkpoints_out_dir = args[2]
 
         # load dataset
@@ -123,6 +156,10 @@ if __name__ == "__main__":
         print("dataset", dataset_name)
         print("checkpoints_out_dir", Path(checkpoints_out_dir).absolute(),
               '-This is where the Finetuning checkpoints will be saved')
+        print('log_training_dynamics', log_training_dynamics)
+        print('cartography_split', cartography_split)
+        print("log_training_dynamics_dir", log_training_dynamics_dir)
+
         train_data, valid_data = dataset['train'], dataset['validation']
 
         training_args = TrainingArguments(

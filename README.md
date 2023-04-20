@@ -90,5 +90,9 @@ Repository to contain the code for 696DS project (Spr 2023)
 
     ***Note:*** For more details about the scripts, checkout the readme file in the scripts folder.
 
+  - For Plotting DataMap for a saved training dynamics
+
+     ```sbatch plot_dataMap.sh /path/to/log_training_dynamics_dir  /path/to/plot_dir {dataset_name}```
+
 
 ### TODO: Currently this file, is used to understand the folder structure and what are the script commands. Will be updated once everyone got familiar with the above.

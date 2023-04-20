@@ -142,3 +142,18 @@ All the scripts load conda and activate vadops environment(`/work/pi_adrozdov_um
     Example: 
     
     ```sbatch calc_entropy_loss_snips.sh test ../checkpoints/snips/checkpoint-26170/ ../predictions/entropy/snips_test.csv```
+
+## plot_dataMap.sh:
+  - calls plot method in `models/main.py`file. 
+  - Need 3 command args:
+    - log_training_dynamics_dir: specify the training dynamics folder path
+    - plot_dir: specify the plot_dir path to save the graph
+    - dataset_name: specify the dataset_name for which the training dynamics are generated
+
+    Command: 
+    
+    ```sbatch plot_dataMap.sh /path/to/log_training_dynamics_dir  /path/to/plot_dir {dataset_name}```
+    
+    Example: 
+    
+    ```sbatch plot_dataMap.sh ../training_dynamics/clinc_small /datamap_graphs clinc_small_train```

@@ -267,6 +267,6 @@ def plot_data_map(dataframe: pd.DataFrame,
         plot2.set_ylabel('density')
 
     fig.tight_layout()
-    filename = f'{plot_dir}/{title}_{model}.pdf' if show_hist else f'{plot_dir}/compact_{title}_{model}.pdf'
+    filename = f'{plot_dir}/{title}_{model}.png' if show_hist else f'{plot_dir}/compact_{title}_{model}.png'
     fig.savefig(filename, dpi=300)
     print(f"Plot saved to {filename}")

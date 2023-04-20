@@ -175,7 +175,7 @@ if __name__ == "__main__":
             logging_steps=50
         )
 
-        finetune(training_args, train_data, valid_data)
+        finetune(training_args, train_data, valid_data, log_training_dynamics=log_training_dynamics, cartography_split=cartography_split, log_training_dynamics_dir=log_training_dynamics_dir)
         print("Finetuning model: END")
 
     elif function_name == 'eval':

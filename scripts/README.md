@@ -14,6 +14,9 @@ All the scripts load conda and activate vadops environment(`/work/pi_adrozdov_um
 
   ```tail -f ./logs/slurm-<jobID>``` # to continuously see output of a Slurm job that is running.
 
+### Cancel sbatch job
+  ```scancel <jobID>```
+
 # About:
 ## finetune_clinc.sh
   - calls finetune method in `models/CLINC.py` file.

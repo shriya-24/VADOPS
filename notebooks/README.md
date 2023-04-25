@@ -21,12 +21,23 @@ We use this directory for jupyter notebooks.
 - calculates the evaluation(accuracy and F1 score) of finetuned model on testing dataset.
 - calculates the evalutation metrics(accuracy, precision, F1-score) of each class label.
 
-- Based on your requirements, make changes to the variables:  `checkpoints_out_dir, dataset_subset, predictions_out_dir`
+- Based on your requirements, make changes to the variables:  `checkpoints_out_dir, dataset_subset, predictions_out_dir, dataset_type`
   - check `dataset_subset` variable - this specifies which dataset subset you wanna use from 'CLINC'. and options are ['small', 'imbalanced', 'plus']
   - check `checkpoints_out_dir` variable - mention of checkpoint you wanna use to load the model
   - check `predictions_out_dir` variable - this where the evalutation metrics of each class label are saved in csv format.(make sure the directory exists)
+  - check `dataset_type` variable - mention which dataset split("train", "validation", "test") you wanna load to evaluate the performance
 - **Note:**  For evaluation, the dataset_subset should be the same with dataset_subset the checkpoint model is finetuned.
 
+
+## calc_entropy_loss_clinc.ipynb
+- calculates entropy loss for each sentence for the test data and saves the predicted label, entropy loss in the specified  `entropy_analysis_path`
+
+- Based on your requirements, make changes to the variables:  `checkpoints_out_dir, dataset_subset, entropy_analysis_path, dataset_type`
+  - check `dataset_subset` variable - this specifies which dataset subset you wanna use from 'CLINC'. and options are ['small', 'imbalanced', 'plus']
+  - check `checkpoints_out_dir` variable - mention of checkpoint you wanna use to load the model
+  - check `entropy_analysis_path` variable - this where the entropy loss, predicted label for each sentence are saved in csv format.(make sure the directory exists)
+  - check `dataset_type` variable - mention which dataset split("train", "validation", "test") you wanna load to calculate entropy loss
+- **Note:**  For calculation of entropy, the dataset_subset should be the same with dataset_subset the checkpoint model is finetuned.
 
 
 

@@ -1,0 +1,12 @@
+{
+"prompt1":[
+	"Write {num_gen} questions or statements with the intent of \"{intent_name}\".\n{examples}"
+],
+"prompt2":[
+	"An Intent is provided: {intent_name}\n{examples}The {entity} flawlessly constructs {num_gen} questions as sentences with the given intent:"
+],
+"prompt3":[
+	"What does the \"{intent_name}\" Intent mean in the intent classification task? Explain in two sentences",
+	"Great! Can you generate {num_gen} questions as sentences related to this intent?\n{examples}"
+]
+}

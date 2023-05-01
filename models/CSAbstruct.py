@@ -29,8 +29,6 @@ def download_data():
     for dataset_type in dataset_types:
         print(f"Downloading {dataset_type} data...")
         file_name = os.path.join(CSAbstruct_data_path, dataset_type + '.csv')
-        if dataset_type == 'validation': # github repo has validation data as valid file name
-            dataset_type = 'valid'
 
         print(CSABSTRUCT_DATA_BASE_URL + dataset_type+ '.jsonl')
         tempFile, headers = urlretrieve(

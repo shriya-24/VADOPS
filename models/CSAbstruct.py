@@ -13,13 +13,13 @@ from datasets import DatasetDict, ClassLabel
 
 
 # variables
-dataset_name = 'CSAbstract'
+dataset_name = 'CSAbstruct'
 function_names = ['eval', 'finetune', 'download', 'calc_entropy_loss']
 dataset_types = ["train", "dev", "test"]
-snips_data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../data/CSAbstruct/'))
+CSAbstruct_data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../data/CSAbstruct/'))
 
 def download_data():
-    """Downloading the CSabstract dataset from github
+    """Downloading the CSabstruct dataset from github
     """
     
     #https://github.com/allenai/sequential_sentence_classification/blob/master/data/CSAbstruct/dev.jsonl
@@ -28,7 +28,7 @@ def download_data():
 
     for dataset_type in dataset_types:
         print(f"Downloading {dataset_type} data...")
-        file_name = os.path.join(snips_data_path, dataset_type + '.csv')
+        file_name = os.path.join(CSAbstruct_data_path, dataset_type + '.csv')
         if dataset_type == 'validation': # github repo has validation data as valid file name
             dataset_type = 'valid'
 
@@ -54,7 +54,7 @@ def download_data():
 
 
 def load_data() -> DatasetDict:
-    """Loading snips dataset from corresponding csv format
+    """Loading CSAbstruct dataset from corresponding csv format
 
     Returns:
         DatasetDict: it contains train, validation, test datasets
@@ -63,7 +63,7 @@ def load_data() -> DatasetDict:
     dataset_dict = DatasetDict()
     # itreate each dataset type
     for dataset_type in dataset_types:
-        file_name = os.path.join(snips_data_path, dataset_type + '.csv') # file
+        file_name = os.path.join(CSAbstruct_data_path, dataset_type + '.csv') # file
         if not Path(file_name).exists():
             print(
                 f'{dataset_type} data is not available. Tried to find at:', file_name)
@@ -82,23 +82,6 @@ def load_data() -> DatasetDict:
 
     return dataset_dict
 
-
-def parse_line(line: str) -> dict({'label': str, 'text': str}):
-    """paring the line of a snips csv file and converting into a dict of label and text
-
-    Args:
-        line (str): 
-
-    Returns:
-        _type_: _description_
-    """
-    utterance_data, intent_label = line.split(" <=> ")
-    items = utterance_data.split()
-    words = [item.rsplit(":", 1)[0]for item in items]
-    return {
-        "label": intent_label,
-        "text": " ".join(words),
-    }
 
 def parse_line_json(line: str):
     line_json = json.loads(line)
@@ -161,7 +144,7 @@ if __name__ == "__main__":
             # training dynamics logging is enabled
             if log_training_dynamics:
                 if (len(args) < 5 or args[4] not in ['train', 'dev']):
-                    raise Exception("Please provide proper dataset split([train, validation]) value to log the training dynamics")
+                    raise Exception("Please provide proper dataset split([train, dev]) value to log the training dynamics")
             
                 cartography_split = args[4]
             

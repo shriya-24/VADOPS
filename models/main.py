@@ -69,7 +69,7 @@ def finetune(training_args: TrainingArguments, train_data: Dataset, eval_data: D
         if not log_training_dynamics_dir:
             raise Exception("Please provide the directory path to save the training dynamics")
         
-        if cartography_split not in ['train', 'validation']:
+        if cartography_split not in ['train', 'validation','dev']:
             raise Exception("Please provide proper dataset split to log the training dynamics")
         
         dataset_1 = train_data if cartography_split == 'train' else eval_data

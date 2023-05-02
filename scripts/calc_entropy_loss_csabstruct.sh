@@ -21,8 +21,8 @@ python ../models/CSAbstruct.py calc_entropy_loss $1 $2 $3
 
 # Examples
 # Using python: python ../models/CSAbstruct.py calc_entropy_loss {dataset_type} /path/to/checkpoint /path/to/entropy_analysis_dir/{fileName}.csv
-# Using python: python ../models/CSAbstruct.py calc_entropy_loss test ../checkpoints/csabstruct/checkpoint-XXXX/ ../predictions/entropy/csabstruct_test.csv
+# Using python: python ../models/CSAbstruct.py calc_entropy_loss test ../checkpoints/csabstruct/checkpoint-22670/ ../predictions/entropy/csabstruct_test.csv
 
 # Using bash: sbatch calc_entropy_loss_csabstruct.sh {dataset_type} /path/to/checkpoint /path/to/entropy_analysis_dir/{fileName}.csv
-# Using bash: sbatch calc_entropy_loss_csabstruct.sh test ../checkpoints/csabstruct/checkpoint-XXXX/ ../predictions/entropy/csabstruct_test.csv
+# Using bash: sbatch calc_entropy_loss_csabstruct.sh test ../checkpoints/csabstruct/checkpoint-22670/ ../predictions/entropy/csabstruct_test.csv
 

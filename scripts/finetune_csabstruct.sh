@@ -13,9 +13,7 @@ module load conda
 conda activate /work/pi_adrozdov_umass_edu/$USER/envs/vadops
 
 # Argument 1(checkpoints_out_dir): specify filepath where you want finetuning checkpoint to be saved
-# Argument 2(cartography_split): Specify the dataset split from ['train', 'dev']
-# Argument 3(log_training_dynamics_dir): specify the dir path to store the training dynamics
-python ../models/CSAbstruct.py finetune $1 True $2 $4
+python ../models/CSAbstruct.py finetune $1
 
 # Example
 # Using python: python ../models/CSAbstruct.py finetune /path/to/checkpoint

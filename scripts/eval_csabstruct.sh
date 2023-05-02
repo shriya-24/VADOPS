@@ -20,7 +20,7 @@ python ../models/CSAbstruct.py eval $1 $2 $3
 
 # Examples
 # Using python: python ../models/CSAbstruct.py eval {dataset_type} /path/to/checkpoint /path/to/prediction/{fileName}.csv
-# Using python: python ../models/CSAbstruct.py eval test ../checkpoints/csabstruct/checkpoint-XXXX/ ../predictions/csabstruct.csv
+# Using python: python ../models/CSAbstruct.py eval test ../checkpoints/csabstruct/checkpoint-22670/ ../predictions/csabstruct.csv
 
 # Using bash: sbatch eval_csabstruct.sh {dataset_type} /path/to/checkpoint /path/to/prediction/{fileName}.csv
-# Using bash: sbatch eval_csabstruct.sh test ../checkpoints/csabstruct/checkpoint-XXXX/ ../predictions/csabstruct.csv
+# Using bash: sbatch eval_csabstruct.sh test ../checkpoints/csabstruct/checkpoint-22670/ ../predictions/csabstruct.csv

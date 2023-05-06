@@ -20,27 +20,29 @@ from training_dynamics import compute_train_dy_metrics, read_training_dynamics, 
 from pathlib import Path
 
 # variables
-L_Model = "roberta-base"
-device = 'cuda:0'
-
-tokenizer = AutoTokenizer.from_pretrained(L_Model)
-accuracy = evaluate.load("accuracy")
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
+print("device used:", device)
 
 function_names = ['plot']
 
 
-def finetune(training_args: TrainingArguments, train_data: Dataset, eval_data: Dataset, log_training_dynamics = False, cartography_split = 'train', log_training_dynamics_dir = None):
+def finetune(pretrained_model_name_or_path: str, training_args: TrainingArguments, train_data: Dataset, eval_data: Dataset, log_dynamics = False, cartography_splits = ['train'], log_dynamics_dir = None) -> str:
     """Fine tune the model with the training_argument passed and RoBERTa model
 
     Args:
         training_args (TrainingArguments): pass the training arguments with the parameters required for the dataset
         train_data (Dataset): dataset should have label column specifying the classification
         eval_data (Dataset): dataset should have label column specifying the classification
+    
+    Returns: str - path for the best model checkpoint
     """
 
+    # tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(pretrained_model_name_or_path)
+
     # tokenizing the data
-    train_data_encodings = train_data.map(preprocess_function, batched=True)
-    eval_data_encodings = eval_data.map(preprocess_function, batched=True)
+    train_data_encodings = train_data.map(lambda examples: tokenizer(examples["text"], truncation=True), batched=True)
+    eval_data_encodings = eval_data.map(lambda examples: tokenizer(examples["text"], truncation=True), batched=True)
     
     # train_data labels
     labels = train_data_encodings.features["label"].names
@@ -48,11 +50,10 @@ def finetune(training_args: TrainingArguments, train_data: Dataset, eval_data: D
     id2label = {i: labels[i] for i in range(len(labels))}
 
     model = AutoModelForSequenceClassification.from_pretrained(
-        L_Model, num_labels=len(labels), id2label=id2label, label2id=label2id, return_dict=True)
+        pretrained_model_name_or_path, num_labels=len(labels), id2label=id2label, label2id=label2id, return_dict=True)
 
-    # making computation to GPU
-    if torch.cuda.is_available():
-        model = model.to(device)
+    # pointing to available device
+    model = model.to(device)
 
     # define trainer
     trainer = Trainer(
@@ -65,18 +66,24 @@ def finetune(training_args: TrainingArguments, train_data: Dataset, eval_data: D
         compute_metrics=compute_metrics,
     )
 
-    if log_training_dynamics:
-        if not log_training_dynamics_dir:
-            raise Exception("Please provide the directory path to save the training dynamics")
+    if log_dynamics:
+        if not log_dynamics_dir:
+            raise Exception("Please provide the directory path to save the dynamics")
         
-        if cartography_split not in ['train', 'validation','dev']:
-            raise Exception("Please provide proper dataset split to log the training dynamics")
-        
-        dataset_1 = train_data if cartography_split == 'train' else eval_data
-        trainer.add_callback(ExtendedTrainerCallback(model, dataset_1, log_training_dynamics_dir = log_training_dynamics_dir))
+        for split in cartography_splits:            
+            dataset_1 = train_data if split == 'train' else eval_data
+            split_dir = os.path.join(log_dynamics_dir, split)
+            os.makedirs(split_dir)
+            trainer.add_callback(ExtendedTrainerCallback(model, dataset_1, log_dynamics_dir = split_dir))
 
     # Train model
     trainer.train()
+
+    # save best model
+    trainer.save_model(training_args.output_dir)
+
+    # return best checkpoint
+    return trainer.state.best_model_checkpoint
 
 
 def eval(dataset: Dataset, checkpoints_out_dir: str, predictions_out_dir: str):
@@ -91,8 +98,7 @@ def eval(dataset: Dataset, checkpoints_out_dir: str, predictions_out_dir: str):
     # variables
     pipeline_task = 'text-classification'
 
-    classifier = pipeline(
-        pipeline_task, model=checkpoints_out_dir, device=device)
+    classifier = pipeline(pipeline_task, model=checkpoints_out_dir, device=device)
 
     # predictions on the dataset
     predictions = classifier(dataset['text'], batch_size=16)
@@ -103,8 +109,7 @@ def eval(dataset: Dataset, checkpoints_out_dir: str, predictions_out_dir: str):
                    for label in dataset['label']]
 
     # generating report
-    report = classification_report(
-        true_labels, predicted_labels, output_dict=True)
+    report = classification_report(true_labels, predicted_labels, output_dict=True)
 
     # report has three root variables 1. accuracy 2. macro avg 3. weighted avg
     macro_avg_f1_score = report['macro avg']['f1-score']
@@ -129,9 +134,8 @@ def eval(dataset: Dataset, checkpoints_out_dir: str, predictions_out_dir: str):
     df_sorted.to_csv(predictions_out_dir, index=False)
 
     # logging
-    print("Report for each class eval metrics is generated and saved at:",
-          Path(predictions_out_dir).absolute())
-    return
+    print("Report for each class eval metrics is generated and saved at:", Path(predictions_out_dir).absolute())
+    return accuracy, macro_avg_f1_score, weighted_avg_f1_score
 
 
 def calc_entropy_loss(dataset: Dataset, checkpoints_out_dir: str, entropy_analysis_path: str):
@@ -193,36 +197,40 @@ def calc_entropy_loss(dataset: Dataset, checkpoints_out_dir: str, entropy_analys
     df.insert(df.columns.get_loc('Predicted_Label_Index') + 1, 'Predicted Label', [model.config.id2label[l] for l in df['Predicted_Label_Index']])
     df.to_csv(entropy_analysis_path, index = False)
 
-
-def preprocess_function(examples):
-    return tokenizer(examples["text"], truncation=True)
+    # logging
+    print("entropy is calculated and saved at:", Path(entropy_analysis_path).absolute())
 
 
 def compute_metrics(eval_pred):
     predictions, labels = eval_pred
     predictions = np.argmax(predictions, axis=1)
+    accuracy = evaluate.load("accuracy")
     return accuracy.compute(predictions=predictions, references=labels)
 
-def plot(log_training_dynamics_dir, plot_dir, dataset_name):
-    "plot data map for the saved training dynamics"
-    training_dyn = read_training_dynamics(log_training_dynamics_dir)
+def plot(log_dynamics_dir, plot_dir, title):
+    "plot data map for the saved dynamics"
+    training_dyn = read_training_dynamics(log_dynamics_dir)
     train_dy_metrics, _ = compute_train_dy_metrics(training_dyn)
-    plot_data_map(train_dy_metrics, plot_dir, title=dataset_name, show_hist=True)
+    plot_data_map(train_dy_metrics, plot_dir, title=title, show_hist=True)
 
 
 class ExtendedTrainerCallback(TrainerCallback): 
     "A callback that save the trianing dynamics of the dataset at every epoch"
-    def __init__(self, model, dataset, log_training_dynamics_dir = None):
+    def __init__(self, model, dataset, log_dynamics_dir):
         super().__init__()
-        self.log_training_dynamics_dir = log_training_dynamics_dir
+        self.log_dynamics_dir = log_dynamics_dir
         self.model = model
         self.dataset = dataset
 
     def on_epoch_end(self, args, state, control, **kwargs):
         epoch = int(state.epoch)
-        print(f"Logging Training Dynamics for epoch:{epoch} START")
+        print(f"Logging dynamics for epoch:{epoch} START")
         
         # tokenizing the dataset
+        pretrained_model_name_or_path = self.model.config.name_or_path
+
+        ## tokenizer
+        tokenizer = AutoTokenizer.from_pretrained(pretrained_model_name_or_path)
         data_encodings = tokenizer(self.dataset['text'], truncation=True, padding=True, return_tensors='pt')
         
         # create batches
@@ -250,15 +258,16 @@ class ExtendedTrainerCallback(TrainerCallback):
         df.columns = ['gold', f"logits_epoch_{epoch}"]
         df = df.reset_index().rename(columns={'index': 'guid'})
         
-        # Create directory for logging training dynamics, if it doesn't already exist.
-        if not os.path.exists(self.log_training_dynamics_dir):
-            os.makedirs(self.log_training_dynamics_dir)
+        # Create directory for logging dynamics, if it doesn't already exist.
+        if not os.path.exists(self.log_dynamics_dir):
+            os.makedirs(self.log_dynamics_dir)
 
-        epoch_file_name = os.path.join(self.log_training_dynamics_dir, f"dynamics_epoch_{epoch}.jsonl")
+        epoch_file_name = os.path.join(self.log_dynamics_dir, f"dynamics_epoch_{epoch}.jsonl")
         df.to_json(epoch_file_name, lines=True, orient="records")
-            # logging
-        print("Training dynamics has been saved at:", Path(epoch_file_name).absolute())
-        print(f"Logging Training Dynamics for epoch:{epoch} END")
+        
+        # logging
+        print("dynamics has been saved at:", Path(epoch_file_name).absolute())
+        print(f"Logging dynamics for epoch:{epoch} END")
 
 
 if __name__ == "__main__":
@@ -266,12 +275,12 @@ if __name__ == "__main__":
     Processing the argument parameters. Currently it requires 
     Args:
     1. function_name: there are two functions. 
-      a. plot - to plot the data map for the specified training dynamics folder 
+      a. plot - to plot the data map for the specified dynamics folder 
     
     For plot function:
-    2. log_training_dynamics_dir: specify the training dynamics folder path
+    2. log_dynamics_dir: specify the dynamics folder path
     3. plot_dir: specify the plot_dir path to save the graph
-    3. dataset_name: specify the dataset_name for which the training dynamics are generated
+    3. title: specify title for the graph
     """
 
     if len(args) < 2 or args[1] not in function_names:
@@ -282,15 +291,15 @@ if __name__ == "__main__":
 
     if function_name == 'plot':
         if len(args) < 3:
-            raise Exception("Please provide log_training_dynamics_dir path for which to plot")
+            raise Exception("Please provide log_dynamics_dir path for which to plot")
         
         if len(args) < 4:
             raise Exception("Please provide plot_dir path to save the graph")
     
         if len(args) < 5:
-            raise Exception("Please provide dataset_name for which training dynamics are generated")
+            raise Exception("Please provide title for which dynamics are generated")
         
-        log_training_dynamics_dir = args[2]
+        log_dynamics_dir = args[2]
         plot_dir = args[3]
-        dataset_name = args[4]
-        plot(log_training_dynamics_dir, plot_dir, dataset_name)
+        title = args[4]
+        plot(log_dynamics_dir, plot_dir, title)

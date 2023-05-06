@@ -1,0 +1,301 @@
+Sentence,Label
+How long does it usually take to get a replacement card?,replacement_card_duration
+Can you tell me about the process to get a replacement card?,replacement_card_duration
+What is the expected turnaround time for a replacement card?,replacement_card_duration
+"If I lose my card, how soon can I get a replacement?",replacement_card_duration
+Is there an expedited option for getting a replacement card?,replacement_card_duration
+How many days will it take to receive a replacement card once requested?,replacement_card_duration
+Are there any fees associated with getting a replacement card?,replacement_card_duration
+Can I track the progress of the replacement card delivery?,replacement_card_duration
+What is the quickest replacement card delivery service offered by the bank?,replacement_card_duration
+Is there an option to pick up the replacement card in person?,replacement_card_duration
+Can you explain the documents required to apply for a replacement card?,replacement_card_duration
+Do I need to deactivate my lost card before applying for a replacement?,replacement_card_duration
+How will I receive the replacement card?,replacement_card_duration
+Will the new card have the same PIN as the old one?,replacement_card_duration
+Will I be able to use the replacement card for online transactions?,replacement_card_duration
+Are there any restrictions on using the replacement card until it arrives?,replacement_card_duration
+Can I choose the delivery speed for the replacement card?,replacement_card_duration
+Are there any options for getting a replacement card on the same day?,replacement_card_duration
+How do I request a replacement card?,replacement_card_duration
+What should I do if I find my original card after requesting a replacement?,replacement_card_duration
+Can I apply for a replacement card through mobile banking?,replacement_card_duration
+Is it possible to apply for a replacement card over the phone?,replacement_card_duration
+Will the replacement card have the same credit limit as the original?,replacement_card_duration
+How can I ensure the safe delivery of the replacement card?,replacement_card_duration
+Can I apply for a new card if I don't want a replacement?,replacement_card_duration
+Does the bank offer any temporary card options while waiting for a replacement?,replacement_card_duration
+How long does it take to activate the replacement card?,replacement_card_duration
+Can I customize the design of the replacement card?,replacement_card_duration
+Is it possible to have the replacement card shipped to a different address?,replacement_card_duration
+Are there any specific days of the week when replacement cards are not processed?,replacement_card_duration
+What happens to any pending transactions on my lost card?,replacement_card_duration
+Can I still make payments using any saved card information while waiting for a replacement?,replacement_card_duration
+Will the replacement card have the same rewards program as the original?,replacement_card_duration
+Can I request a replacement card from a different account?,replacement_card_duration
+Will I have to update any automatic payment information for recurring charges with the new card?,replacement_card_duration
+Is there an option to expedite the review process for a replacement card application?,replacement_card_duration
+Does the replacement card come with a different card number or will the old number still apply?,replacement_card_duration
+Will the replacement card have the same expiration date as the original?,replacement_card_duration
+Can I request a replacement for a damaged card as well?,replacement_card_duration
+Is there an option to upgrade the card when requesting a replacement?,replacement_card_duration
+How long will I be without access to my account during the replacement process?,replacement_card_duration
+Can I apply for a replacement card if I am traveling internationally?,replacement_card_duration
+What should I do if the replacement card itself is lost or stolen during delivery?,replacement_card_duration
+Is there a limit to how many times a card can be replaced within a certain time frame?,replacement_card_duration
+Can I apply for a replacement card if I have a temporary hold on my account?,replacement_card_duration
+Are there any age restrictions for requesting a replacement card?,replacement_card_duration
+What happens to any rewards or points earned on the original card?,replacement_card_duration
+Will the replacement card be shipped with tracking information?,replacement_card_duration
+Can I request a replacement card for a joint account?,replacement_card_duration
+Is there an option to disable a replacement card in case it is lost or stolen again?,replacement_card_duration
+Can you tell me how many PTO days I have left?,pto_used
+How many vacation days do I have remaining?,pto_used
+What's my current PTO balance?,pto_used
+I'd like to know how many days off I still have.,pto_used
+Can you provide me with my available PTO days?,pto_used
+Could you tell me the number of vacation days I have?,pto_used
+Please let me know how many PTOs I have left.,pto_used
+What's my PTO status?,pto_used
+Could you give me an update on my PTO balance?,pto_used
+How many days of PTO am I entitled to?,pto_used
+I want to check the number of vacation days I have.,pto_used
+Can you tell me my remaining vacation days?,pto_used
+How many days of PTO have I used so far?,pto_used
+What is my current PTO entitlement?,pto_used
+Please let me know my unused vacation days.,pto_used
+Can you provide me with the available time off?,pto_used
+I need to know my PTO balance.,pto_used
+What is the status of my vacation days?,pto_used
+Can you inform me about the number of PTO days I have left?,pto_used
+I'd like to request a list of my unused PTO days.,pto_used
+How many PTO days have I accrued this year?,pto_used
+Please tell my remaining time off balance.,pto_used
+Am I entitled to more vacation days this year?,pto_used
+Can you update me on my remaining PTOs?,pto_used
+How many holidays do I have available currently?,pto_used
+What is my current vacation day balance?,pto_used
+What's the status of my PTO entitlement?,pto_used
+Could you let me know my accrued PTO hours?,pto_used
+What's my vacation day allowance for this year?,pto_used
+Can I know the available days of PTO I have?,pto_used
+"I need to check my PTO balance, please.",pto_used
+How many vacation days do I still have left?,pto_used
+Please tell me how much time off I have left.,pto_used
+What is the number of PTO days I have available?,pto_used
+Could you give me an update on my vacation balance?,pto_used
+Please let me know my vacation entitlement.,pto_used
+How many PTO days do I have left for this year?,pto_used
+I want to know the current status of my PTO days.,pto_used
+"Can you update me on my time off balance, please?",pto_used
+Can you tell me how many PTOs I have earned this year?,pto_used
+I'd like to know how many vacation days I get per year.,pto_used
+What is my PTO entitlement based on the company policy?,pto_used
+Could you please inform me about the remaining holidays?,pto_used
+I want to know the total number of PTO days I can take this year.,pto_used
+Please let me know my remaining vacation entitlement for this year.,pto_used
+What's my available time off balance?,pto_used
+Can you confirm my current PTO entitlement?,pto_used
+How many PTOs do I have available in my account?,pto_used
+Could you update me on my vacation hours balance?,pto_used
+What is the total number of PTO hours I have used so far?,pto_used
+Can you activate whisper mode?,whisper_mode
+How do I turn on whisper mode?,whisper_mode
+"I need to switch to whisper mode, can you help me with that?",whisper_mode
+Can you make my voice sound like a whisper?,whisper_mode
+Can you lower my voice to a whisper?,whisper_mode
+Can you whisper everything I say?,whisper_mode
+"I don't want everyone to hear me, can you turn on whisper mode?",whisper_mode
+Can you make me sound like I'm whispering in someone's ear?,whisper_mode
+How do I enable whisper mode on my device?,whisper_mode
+Can you activate the whispering feature on my phone?,whisper_mode
+"I want to switch to whisper mode while on a conference call, can you help me with that?",whisper_mode
+Can you make all my phone calls in whisper mode?,whisper_mode
+How do I set my phone to always be on whisper mode?,whisper_mode
+"I'm in a quiet place, can you activate whisper mode?",whisper_mode
+Can you lower the volume and turn on whisper mode at the same time?,whisper_mode
+Can you whisper my notifications instead of playing them out loud?,whisper_mode
+Can you make my voice sound like a secret whisper?,whisper_mode
+Can you activate whisper mode when I'm listening to music?,whisper_mode
+"I need to keep my conversations private, can you turn on whisper mode?",whisper_mode
+Is it possible to activate whisper mode during video calls?,whisper_mode
+Can you whisper my reminders instead of saying them out loud?,whisper_mode
+"I want to try out whisper mode, can you activate it for me?",whisper_mode
+Can you lower the volume of my alarm and make it a whisper instead?,whisper_mode
+"I'm in a library, can you turn on whisper mode for my notifications?",whisper_mode
+"I don't want to wake anyone up, can you make my alarm a whisper?",whisper_mode
+Can you whisper everything my phone says?,whisper_mode
+Can you activate whisper mode when I'm dictating a message?,whisper_mode
+Can you make my voice sound mysterious when I'm in whisper mode?,whisper_mode
+How do I switch back to normal mode from whisper mode?,whisper_mode
+Can you switch to normal mode after my call is over?,whisper_mode
+Can you set whisper mode to be the default for all my calls?,whisper_mode
+"I need to be discreet, can you activate whisper mode for me?",whisper_mode
+"I want to surprise someone, can you make my voice sound like a whisper?",whisper_mode
+Can you make my voice sound like a ghost in whisper mode?,whisper_mode
+"I need to have a private conversation, can you turn on whisper mode?",whisper_mode
+Can you set up whisper mode for my video recordings?,whisper_mode
+"I want to make a spooky atmosphere, can you activate whisper mode?",whisper_mode
+Can you whisper my directions instead of speaking them out loud?,whisper_mode
+"I'm in a meeting, can you activate whisper mode for my notifications?",whisper_mode
+Can you make my voice sound like a seductive whisper in whisper mode?,whisper_mode
+Can you switch to normal mode when I'm using my speakerphone?,whisper_mode
+"I need to be discreet while texting, can you activate whisper mode?",whisper_mode
+Can you make my voice sound like a secret agent in whisper mode?,whisper_mode
+Can you turn on whisper mode when I'm using my GPS?,whisper_mode
+"I want to create a calm atmosphere, can you activate whisper mode for my music?",whisper_mode
+Can you activate whisper mode for all my media playback?,whisper_mode
+How do I switch to whisper mode during a voice memo recording?,whisper_mode
+Can you make my voice sound like a sultry whisper in whisper mode?,whisper_mode
+Can you lower the volume of my text notifications and whisper them instead?,whisper_mode
+"I want to relax, can you turn on whisper mode for my meditation app?",whisper_mode
+I’m not sure if I want to order takeout tonight.,maybe
+Perhaps I’ll have a salad to be healthy.,maybe
+I’m unsure if the movie I want to watch is on Netflix.,maybe
+Maybe I’ll skip the gym today and just go for a walk instead.,maybe
+I’m undecided on whether to choose the blue or green shirt.,maybe
+"Possibly, I’ll try the sushi at the new restaurant.",maybe
+I’m not sure which book I want to read next.,maybe
+Maybe I’ll go to the beach this weekend.,maybe
+Perhaps I’ll have a glass of wine with dinner.,maybe
+Unsure if I want to upgrade my phone or not.,maybe
+Maybe I’ll ask my boss for a raise next week.,maybe
+I’m undecided on whether to get a cat or a dog as a pet.,maybe
+I’m not sure if my car needs an oil change yet.,maybe
+"Possibly, I’ll take a yoga class this afternoon.",maybe
+Maybe I’ll go to bed early tonight.,maybe
+Perhaps I’ll try the spicy curry dish instead of my usual.,maybe
+I’m unsure if I want to have kids in the future.,maybe
+I’m undecided on which color to paint the living room.,maybe
+Maybe I’ll go to the concert alone.,maybe
+I’m not sure if I want to switch jobs or stay at my current one.,maybe
+"Possibly, I’ll take a day trip to a nearby city this weekend.",maybe
+Maybe I’ll try a new hobby.,maybe
+Perhaps I’ll take a break from social media today.,maybe
+I’m undecided on whether to buy the expensive shoes or the cheaper ones.,maybe
+Maybe I’ll sign up for a cooking class.,maybe
+I’m not sure if I want to go to the party tonight.,maybe
+"Possibly, I’ll try a vegetarian diet for a week.",maybe
+Perhaps I’ll take a break from caffeine for a few days.,maybe
+I’m unsure if I want to attend the conference next month.,maybe
+I’m undecided on whether to buy the book or rent it from the library.,maybe
+Maybe I’ll try a new coffee shop.,maybe
+Perhaps I’ll have dessert tonight even though I’m on a diet.,maybe
+I’m not sure if I want to invest in stocks or bonds.,maybe
+"Possibly, I’ll take a pottery class on the weekend.",maybe
+Maybe I’ll go for a hike in the mountains.,maybe
+I’m unsure if I want to continue with this relationship.,maybe
+I’m undecided on which movie to watch tonight.,maybe
+Perhaps I’ll try a new hairstyle this week.,maybe
+I’m not sure if I want to buy a new car or stick with my old one.,maybe
+Maybe I’ll go to the museum this weekend.,maybe
+"Possibly, I’ll try a hot air balloon ride for the first time.",maybe
+I’m undecided on whether to order pizza or Chinese food tonight.,maybe
+Maybe I’ll try a new brand of coffee.,maybe
+Perhaps I’ll take a day off from work.,maybe
+I’m unsure if I want to take a vacation this year.,maybe
+I’m not sure if I want to join the gym or exercise at home.,maybe
+"Possibly, I’ll start a new exercise routine this week.",maybe
+Maybe I’ll go to the farmer’s market on the weekend.,maybe
+Perhaps I’ll try a new ethnic restaurant in town.,maybe
+I’m undecided on whether to cut my hair or keep it long.,maybe
+How far is the city center from here?,distance
+What is the distance between New York and Los Angeles?,distance
+How long will it take to reach the airport?,distance
+Can you tell me the distance between two streets?,distance
+How far is the train station from my hotel?,distance
+What is the distance from my office to the conference room?,distance
+How long will it take to get to the restaurant from here?,distance
+What is the distance between two metro stations?,distance
+How far is the gas station from here?,distance
+Can you tell me the distance between my house and the supermarket?,distance
+How long does it take to drive to the beach?,distance
+What is the distance between two landmarks?,distance
+How far away is the museum from here?,distance
+How long is the flight from London to Paris?,distance
+What is the distance between two cities in Japan?,distance
+How far is it from here to the nearest hospital?,distance
+Can you tell me the distance between two tourist attractions?,distance
+How long will it take to walk to the park?,distance
+What is the distance between my office and the airport?,distance
+How far is the bus station from here?,distance
+What is the distance between two villages?,distance
+How long does it take to get to the beach by bus?,distance
+Can you tell me the distance between my current location and the restaurant?,distance
+How far is it from here to the shopping mall?,distance
+What is the distance between two buildings on campus?,distance
+How long is the flight from New York to London?,distance
+What is the distance between two airports?,distance
+How far away is the nearest train station?,distance
+How long does it take to reach the concert venue by car?,distance
+Can you tell me the distance between two schools?,distance
+How far is the tourist attraction from here?,distance
+What is the distance between two national parks?,distance
+How long will it take to walk to the movie theater?,distance
+What is the distance between two hospitals?,distance
+How far is it to the nearest pharmacy?,distance
+How long is the flight from Dubai to Sydney?,distance
+What is the distance between two neighborhoods?,distance
+How far away is the beach from here?,distance
+Can you tell me the distance between two landmarks in Paris?,distance
+How long does it take to drive to the airport?,distance
+What is the distance between my hotel and the conference center?,distance
+How far is the train station from the airport?,distance
+How long will it take to get to the amusement park by taxi?,distance
+What is the distance between two cities in Brazil?,distance
+How far is it from here to the nearest police station?,distance
+Can you tell me the distance between two restaurants?,distance
+How long is the flight from Sydney to Los Angeles?,distance
+What is the distance between my home and my workplace?,distance
+How far is the grocery store from here?,distance
+What is the distance between two shopping centers?,distance
+Can you tell me when my next car payment is due?,bill_due
+How much do I owe on my phone bill?,bill_due
+Is my electricity bill due soon?,bill_due
+What's the status of my mortgage payment?,bill_due
+Have I missed any payments on my credit card?,bill_due
+Can you tell me the due date of my broadband bill?,bill_due
+How much do I owe on my student loans?,bill_due
+Did I already pay my rent for this month?,bill_due
+Could you check when my water bill is due?,bill_due
+Have I made any payments towards my medical bills?,bill_due
+I'm curious about my outstanding balance on my personal loan.,bill_due
+When is the last day to pay my insurance premium?,bill_due
+Could you remind me when my Netflix subscription is up for renewal?,bill_due
+"I think my electricity bill is overdue, can you confirm?",bill_due
+Can I have an update on my tuition fee payment?,bill_due
+Is there a balance due on my Visa card?,bill_due
+Did I miss any payments on my auto loan?,bill_due
+Could you let me know the payment status of my cell phone bill?,bill_due
+When is the due date of my Texas Gas bill?,bill_due
+I'm curious about how much I owe on my car insurance premium.,bill_due
+Have I cleared my last phone bill payment?,bill_due
+Can you give me an update on my property tax payment?,bill_due
+Is there a remaining balance on my Home Depot credit card?,bill_due
+What's the payment status on my dental bill?,bill_due
+When is the final date to pay my personal electric bill?,bill_due
+Did I forget to pay my cable bill last month?,bill_due
+How much do I owe on my JCPenney credit card?,bill_due
+Could you let me know the payment due date of my State Farm bill?,bill_due
+What is the outstanding amount on my medical bills?,bill_due
+When is my next credit card statement due date?,bill_due
+Has my utility bill been paid yet?,bill_due
+Can you tell me when my internet bill is due?,bill_due
+How much do I owe on my Walmart credit card?,bill_due
+Could you check when my natural gas bill is due?,bill_due
+Have I missed any payments for my electricity bill?,bill_due
+"I believe my water bill is overdue, is that true?",bill_due
+What is the status of my tuition payment?,bill_due
+When is my cell phone bill due?,bill_due
+Could you verify if my cable bill has been paid?,bill_due
+How much do I owe on my Macy's credit card?,bill_due
+Have I missed any payments on my mortgage?,bill_due
+What's my current balance on my health insurance dues?,bill_due
+Could you let me know when I need to renew my car registration?,bill_due
+Is there a balance due on my Dish Network bill?,bill_due
+Can you give me the status of my tuition payment for next semester?,bill_due
+When is my credit card payment due?,bill_due
+Have I made the full payment for my hospital bill?,bill_due
+"I think I forgot to pay my credit card bill, could you confirm?",bill_due
+Could you let me know the date for the next payment of my gym membership?,bill_due
+Is there a remaining balance on my CarMax auto loan?,bill_due

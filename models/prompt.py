@@ -4,6 +4,8 @@ import pandas as pd
 import json
 import os
 import re
+import time
+
 openai.api_key = "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" # Use your own API Key here
 
 
@@ -27,22 +29,16 @@ worst_intent_examples = {
 def get_worst_examples(intent_class_file, intent_examples_file):
     intent_class_df = pd.read_csv(intent_class_file,sep=',')
     intent_example_df = pd.read_csv(intent_examples_file,sep=',')
-    print(intent_class_df)
-    # return
+
     intent_class_df = intent_class_df[(intent_class_df.recall <1) & (intent_class_df.label != "oos")]
-    print(intent_class_df)
     worst_intents = intent_class_df.label.tolist()
-    print(intent_class_df.label.tolist())
-    intent_example_df = intent_example_df[(intent_example_df.IsMatch  == 0) & (intent_example_df.TrueLabel != "oos")]
-    print(intent_example_df)
+    intent_example_df = intent_example_df[(intent_example_df['True Label']  == intent_example_df['Predicted Label']) & (intent_example_df['True Label'] != "oos")]
     worst_intent_eg = {}
-    print(intent_example_df[intent_example_df.TrueLabel == 'replacement_card_duration'])
     for intent in worst_intents:
         if intent not in worst_intent_eg:
-            worst_intent_eg[intent] = intent_example_df[intent_example_df.TrueLabel  == intent].Text.tolist()
+            worst_intent_eg[intent] = intent_example_df[intent_example_df['True Label'] == intent].Text.tolist()
         else:
-            worst_intent_eg[intent].append(intent_example_df[intent_example_df.TrueLabel  == intent].Text.tolist())
-    print(list(worst_intent_eg.keys()))
+            worst_intent_eg[intent].append(intent_example_df[intent_example_df['True Label'] == intent].Text.tolist())
     return worst_intent_eg
 
 def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=0,num_gen=10):
@@ -85,32 +81,38 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
     # worst_intent_data = 
     il = get_worst_examples(ic_path,ice_path)
     intent_list = list(il.keys())
-    for intent_check in intent_list:
+    index = 0
+    while index < len(intent_list):
+        prompt_list = construct_prompt(prompttype,"ChatGPT",intent_list[index],il,num_eg,num_gen)
+        try:
+            for idx,prompt in enumerate(prompt_list):
+                if idx == len(prompt_list)-1:
+                    break
 
-        prompt_list = construct_prompt(prompttype,"ChatGPT",intent_check,il,num_eg,num_gen)
+                #generate more questions from chatGPT
+                completion = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": prompt}])
 
-        for idx,prompt in enumerate(prompt_list):
-            if idx == len(prompt_list)-1:
-                break
-            
-            #generate more questions from chatGPT
             completion = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": prompt}])
-        print(len(prompt_list))
-        completion = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": prompt_list[len(prompt_list)-1]}])
-        print(completion.choices[0].message.content)
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": prompt_list[len(prompt_list)-1]}])
+        except Exception as e:
+            print('Rate Limit reached or OpenAI server overloaded. so sleeping the function for 60 seconds', e)
+            time.sleep(60)
+            continue
 
         #lines to add to dataset train
         lines = []
         for l in completion.choices[0].message.content.splitlines():
-            lines.append(l.split(". ")[1])
+            l = l.strip()
+            if re.match('^\d', l):
+                l = re.sub(r'^\d+\.\s+', '', l)
+                lines.append(l)
 
-        lines_to_add[intent_check] = lines
-
-
+        lines_to_add[intent_list[index]] = lines
+        index += 1
+        
     return lines_to_add
 
 def convert_to_csv(res):

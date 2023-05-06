@@ -6,6 +6,7 @@ import os
 import re
 import time
 
+import sys
 openai.api_key = "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" # Use your own API Key here
 
 
@@ -18,7 +19,7 @@ dataset_name = 'clinc_oos'
 intent_check_list = ['whisper_mode', 'pto_balance']
 dataset_subset = hyper_params['dataset_subset']
 promptjson = '../prompts/templates/ChatGPT.json'
-generated_text_json = '../prompts/generated_text/ChatGPT.json'
+# generated_text_json = '../prompts/generated_text/ChatGPT_prompt4.json'
 
 #temp object for examples from worst classes
 worst_intent_examples = {
@@ -51,26 +52,32 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
     print(json_object)
     
     prompt_fill = "prompt"+str(prompttype)
-    prompt = json_object[prompt_fill][0]
-    
-    if prompttype == 2:
-        prompt = prompt.replace("{intent_name}",intentname)
-        promptlist.append(prompt)
-        prompt = json_object[prompt_fill][1]
+    print(type(prompttype))
+    if prompttype != 4:
+        prompt = json_object[prompt_fill][0]
 
-    prompt = prompt.replace("{intent_name}",intentname)
+        if prompttype == 2:
+            prompt = prompt.replace("{intent_name}",intentname)
+            promptlist.append(prompt)
+            prompt = json_object[prompt_fill][1]
+
+    # if prompttype != 4:
+            prompt = prompt.replace("{intent_name}",intentname)
+    else:
+        prompt = json_object[prompt_fill][intentname]
     prompt = prompt.replace("{num_gen}",str(num_gen))
     print(prompt)
-    if num_eg > 0:
-        #TODO: Add a file reading functionality to fetch examples from highest cross entropy classes
-        examples += "\nExamples:\n"
-        for idx,eg in enumerate(worst_intent_labels[intentname]):
-            if idx+1 > num_eg:
-                break
-            prompt += f"{idx+1}) {eg}\n"
-        prompt = prompt.replace("{examples}",examples)
-    else:
-        prompt = prompt.replace("{examples}","")
+    if prompttype != 4:
+        if num_eg > 0:
+            #TODO: Add a file reading functionality to fetch examples from highest cross entropy classes
+            examples += "\nExamples:\n"
+            for idx,eg in enumerate(worst_intent_labels[intentname]):
+                if idx+1 > num_eg:
+                    break
+                prompt += f"{idx+1}) {eg}\n"
+            prompt = prompt.replace("{examples}",examples)
+        else:
+            prompt = prompt.replace("{examples}","")
     promptlist.append(prompt)
     return promptlist
         
@@ -115,7 +122,7 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
         
     return lines_to_add
 
-def convert_to_csv(res):
+def convert_to_csv(res,generated_csv_path):
     idx = 0;
     d = pd.DataFrame()
 
@@ -131,27 +138,33 @@ def convert_to_csv(res):
     # d = pd.DataFrame(
     #     [p, p.team, p.passing_att, p.passer_rating()] for p in game.players.passing()
     # )
-    d.to_csv("../prompts/generated_text/ChatGPT.csv", index = False)
+    d.to_csv(generated_csv_path, index = False)
     return
     
 if __name__ == "__main__":
-   print(os.path.abspath(os.getcwd()))
-   print(os.path.dirname(os.path.abspath(__file__)))
+#    print(os.path.abspath(os.getcwd()))
+#    print(os.path.dirname(os.path.abspath(__file__)))
  
+   prompt_llm = sys.argv[1]
+   prompt_type = int(sys.argv[2])
+   num_gen = int(sys.argv[3])
 
+   generated_json_path = f'../prompts/generated_text/{prompt_llm}_prompt{prompt_type}.json'
+   generated_csv_path = f'../prompts/generated_text/{prompt_llm}_prompt{prompt_type}.csv'
+   
    ic_path = "../analysis/IntentClass_Analysis_Trainset-clinc_plus_train.csv"
    ice_path = "../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv"
-   # get_worst_examples("../analysis/IntentClass_Analysis_Trainset-clinc_plus_train.csv","../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv") 
+   get_worst_examples("../analysis/IntentClass_Analysis_Trainset-clinc_plus_train.csv","../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv") 
    # return
-   res = get_more_data(1,ic_path,ice_path,num_gen=50)
-   with open(generated_text_json,"w") as outfile:
+   res = get_more_data(prompt_type,ic_path,ice_path,num_gen=num_gen)
+   with open(generated_json_path,"w") as outfile:
        json.dump(res,outfile)
     
    
 #    with open(generated_text_json, 'r') as openfile:
 #         # Reading from json file
-#         res = json.load(openfile)
+       # res = json.load(outfile)
  
    print(res)
-   convert_to_csv(res)
+   convert_to_csv(res,generated_csv_path)
    print(res)

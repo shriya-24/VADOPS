@@ -134,7 +134,7 @@ def workflow(config):
         for dataset_type in config['dynamics']:
             dataset_dynamics_dir = os.path.join(dynamics_dir, dataset_type)
             title = config['dataset_name']
-            if "dataset_subset" not in config:
+            if "dataset_subset" in config:
                 title += f"_{config['dataset_subset']}" 
             title += f"_{dataset_type}_set"
             plot_data_map(dataset_dynamics_dir, dataMaps_dir, title)

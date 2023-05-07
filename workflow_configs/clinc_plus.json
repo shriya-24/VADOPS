@@ -12,7 +12,8 @@
   "prompts":{
   	"prompt_llm":"ChatGPT",
 	"prompt_type":1,
-	"num_gen":50
+	"num_gen":50,
+    "num_eg":1
   },
   "training_args": {
     "learning_rate":2e-5,

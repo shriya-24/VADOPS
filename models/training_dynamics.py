@@ -17,7 +17,7 @@ from typing import List
 
 def read_training_dynamics(td_dir: os.path):
   """
-  Given path to logged training dynamics, merge stats across epochs.
+  Given path to logged dynamics, merge stats across epochs.
   Returns:
   - Dict between ID of a train instances and its gold label, and the list of logits across epochs.
   """
@@ -74,7 +74,7 @@ def compute_correctness(trend: List[float]) -> float:
 
 def compute_train_dy_metrics(training_dynamics):
   """
-  Given the training dynamics (logits for each training instance across epochs), compute metrics
+  Given the dynamics (logits for each training instance across epochs), compute metrics
   based on it, for data map coorodinates.
   Computed metrics are: confidence, variability, correctness, forgetfulness, threshold_closeness---
   the last two being baselines from prior work
@@ -181,7 +181,7 @@ def plot_data_map(dataframe: pd.DataFrame,
                   show_hist: bool = False,
                   max_instances_to_plot = 55000):
     # Set style.
-    sns.set(style='whitegrid', font_scale=1.6, font='Georgia', context='paper')
+    sns.set(style='whitegrid', font_scale=1.6, context='paper')
     print(f"Plotting figure for {title} using the {model} model ...")
 
     # Subsample data to plot, so the plot is not too busy.

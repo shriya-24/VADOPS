@@ -1,0 +1,131 @@
+index,text,label,predicted
+0,How long does it usually take to get a replacement card?,replacement_card_duration,replacement_card_duration
+1,Can you tell me about the process to get a replacement card?,replacement_card_duration,replacement_card_duration
+2,What is the expected turnaround time for a replacement card?,replacement_card_duration,replacement_card_duration
+3,"If I lose my card, how soon can I get a replacement?",replacement_card_duration,replacement_card_duration
+4,Is there an expedited option for getting a replacement card?,replacement_card_duration,replacement_card_duration
+5,How many days will it take to receive a replacement card once requested?,replacement_card_duration,replacement_card_duration
+7,Can I track the progress of the replacement card delivery?,replacement_card_duration,replacement_card_duration
+8,What is the quickest replacement card delivery service offered by the bank?,replacement_card_duration,replacement_card_duration
+9,Is there an option to pick up the replacement card in person?,replacement_card_duration,replacement_card_duration
+12,How will I receive the replacement card?,replacement_card_duration,replacement_card_duration
+15,Are there any restrictions on using the replacement card until it arrives?,replacement_card_duration,replacement_card_duration
+16,Can I choose the delivery speed for the replacement card?,replacement_card_duration,replacement_card_duration
+17,Are there any options for getting a replacement card on the same day?,replacement_card_duration,replacement_card_duration
+19,What should I do if I find my original card after requesting a replacement?,replacement_card_duration,replacement_card_duration
+23,How can I ensure the safe delivery of the replacement card?,replacement_card_duration,replacement_card_duration
+25,Does the bank offer any temporary card options while waiting for a replacement?,replacement_card_duration,replacement_card_duration
+26,How long does it take to activate the replacement card?,replacement_card_duration,replacement_card_duration
+27,Can I customize the design of the replacement card?,replacement_card_duration,replacement_card_duration
+28,Is it possible to have the replacement card shipped to a different address?,replacement_card_duration,replacement_card_duration
+29,Are there any specific days of the week when replacement cards are not processed?,replacement_card_duration,replacement_card_duration
+31,Can I still make payments using any saved card information while waiting for a replacement?,replacement_card_duration,replacement_card_duration
+36,Does the replacement card come with a different card number or will the old number still apply?,replacement_card_duration,replacement_card_duration
+40,How long will I be without access to my account during the replacement process?,replacement_card_duration,replacement_card_duration
+43,Is there a limit to how many times a card can be replaced within a certain time frame?,replacement_card_duration,replacement_card_duration
+47,Will the replacement card be shipped with tracking information?,replacement_card_duration,replacement_card_duration
+62,How many days of PTO have I used so far?,pto_used,pto_used
+69,I'd like to request a list of my unused PTO days.,pto_used,pto_used
+73,Can you update me on my remaining PTOs?,pto_used,pto_used
+87,I want to know the current status of my PTO days.,pto_used,pto_used
+89,Can you tell me how many PTOs I have earned this year?,pto_used,pto_used
+99,What is the total number of PTO hours I have used so far?,pto_used,pto_used
+100,Can you activate whisper mode?,whisper_mode,whisper_mode
+101,How do I turn on whisper mode?,whisper_mode,whisper_mode
+102,"I need to switch to whisper mode, can you help me with that?",whisper_mode,whisper_mode
+103,Can you make my voice sound like a whisper?,whisper_mode,whisper_mode
+104,Can you lower my voice to a whisper?,whisper_mode,whisper_mode
+105,Can you whisper everything I say?,whisper_mode,whisper_mode
+106,"I don't want everyone to hear me, can you turn on whisper mode?",whisper_mode,whisper_mode
+107,Can you make me sound like I'm whispering in someone's ear?,whisper_mode,whisper_mode
+108,How do I enable whisper mode on my device?,whisper_mode,whisper_mode
+109,Can you activate the whispering feature on my phone?,whisper_mode,whisper_mode
+110,"I want to switch to whisper mode while on a conference call, can you help me with that?",whisper_mode,whisper_mode
+111,Can you make all my phone calls in whisper mode?,whisper_mode,whisper_mode
+112,How do I set my phone to always be on whisper mode?,whisper_mode,whisper_mode
+113,"I'm in a quiet place, can you activate whisper mode?",whisper_mode,whisper_mode
+114,Can you lower the volume and turn on whisper mode at the same time?,whisper_mode,whisper_mode
+115,Can you whisper my notifications instead of playing them out loud?,whisper_mode,whisper_mode
+116,Can you make my voice sound like a secret whisper?,whisper_mode,whisper_mode
+117,Can you activate whisper mode when I'm listening to music?,whisper_mode,whisper_mode
+118,"I need to keep my conversations private, can you turn on whisper mode?",whisper_mode,whisper_mode
+119,Is it possible to activate whisper mode during video calls?,whisper_mode,whisper_mode
+120,Can you whisper my reminders instead of saying them out loud?,whisper_mode,whisper_mode
+121,"I want to try out whisper mode, can you activate it for me?",whisper_mode,whisper_mode
+122,Can you lower the volume of my alarm and make it a whisper instead?,whisper_mode,whisper_mode
+123,"I'm in a library, can you turn on whisper mode for my notifications?",whisper_mode,whisper_mode
+124,"I don't want to wake anyone up, can you make my alarm a whisper?",whisper_mode,whisper_mode
+125,Can you whisper everything my phone says?,whisper_mode,whisper_mode
+126,Can you activate whisper mode when I'm dictating a message?,whisper_mode,whisper_mode
+127,Can you make my voice sound mysterious when I'm in whisper mode?,whisper_mode,whisper_mode
+128,How do I switch back to normal mode from whisper mode?,whisper_mode,whisper_mode
+129,Can you switch to normal mode after my call is over?,whisper_mode,whisper_mode
+130,Can you set whisper mode to be the default for all my calls?,whisper_mode,whisper_mode
+131,"I need to be discreet, can you activate whisper mode for me?",whisper_mode,whisper_mode
+132,"I want to surprise someone, can you make my voice sound like a whisper?",whisper_mode,whisper_mode
+133,Can you make my voice sound like a ghost in whisper mode?,whisper_mode,whisper_mode
+134,"I need to have a private conversation, can you turn on whisper mode?",whisper_mode,whisper_mode
+135,Can you set up whisper mode for my video recordings?,whisper_mode,whisper_mode
+136,"I want to make a spooky atmosphere, can you activate whisper mode?",whisper_mode,whisper_mode
+137,Can you whisper my directions instead of speaking them out loud?,whisper_mode,whisper_mode
+138,"I'm in a meeting, can you activate whisper mode for my notifications?",whisper_mode,whisper_mode
+139,Can you make my voice sound like a seductive whisper in whisper mode?,whisper_mode,whisper_mode
+140,Can you switch to normal mode when I'm using my speakerphone?,whisper_mode,whisper_mode
+141,"I need to be discreet while texting, can you activate whisper mode?",whisper_mode,whisper_mode
+142,Can you make my voice sound like a secret agent in whisper mode?,whisper_mode,whisper_mode
+143,Can you turn on whisper mode when I'm using my GPS?,whisper_mode,whisper_mode
+144,"I want to create a calm atmosphere, can you activate whisper mode for my music?",whisper_mode,whisper_mode
+145,Can you activate whisper mode for all my media playback?,whisper_mode,whisper_mode
+146,How do I switch to whisper mode during a voice memo recording?,whisper_mode,whisper_mode
+147,Can you make my voice sound like a sultry whisper in whisper mode?,whisper_mode,whisper_mode
+148,Can you lower the volume of my text notifications and whisper them instead?,whisper_mode,whisper_mode
+149,"I want to relax, can you turn on whisper mode for my meditation app?",whisper_mode,whisper_mode
+200,How far is the city center from here?,distance,distance
+201,What is the distance between New York and Los Angeles?,distance,distance
+202,How long will it take to reach the airport?,distance,distance
+204,How far is the train station from my hotel?,distance,distance
+205,What is the distance from my office to the conference room?,distance,distance
+206,How long will it take to get to the restaurant from here?,distance,distance
+208,How far is the gas station from here?,distance,distance
+210,How long does it take to drive to the beach?,distance,distance
+212,How far away is the museum from here?,distance,distance
+214,What is the distance between two cities in Japan?,distance,distance
+217,How long will it take to walk to the park?,distance,distance
+220,What is the distance between two villages?,distance,distance
+221,How long does it take to get to the beach by bus?,distance,distance
+222,Can you tell me the distance between my current location and the restaurant?,distance,distance
+223,How far is it from here to the shopping mall?,distance,distance
+228,How long does it take to reach the concert venue by car?,distance,distance
+230,How far is the tourist attraction from here?,distance,distance
+232,How long will it take to walk to the movie theater?,distance,distance
+237,How far away is the beach from here?,distance,distance
+239,How long does it take to drive to the airport?,distance,distance
+240,What is the distance between my hotel and the conference center?,distance,distance
+241,How far is the train station from the airport?,distance,distance
+242,How long will it take to get to the amusement park by taxi?,distance,distance
+243,What is the distance between two cities in Brazil?,distance,distance
+247,What is the distance between my home and my workplace?,distance,distance
+248,How far is the grocery store from here?,distance,distance
+250,Can you tell me when my next car payment is due?,bill_due,bill_due
+252,Is my electricity bill due soon?,bill_due,bill_due
+255,Can you tell me the due date of my broadband bill?,bill_due,bill_due
+257,Did I already pay my rent for this month?,bill_due,bill_due
+258,Could you check when my water bill is due?,bill_due,bill_due
+261,When is the last day to pay my insurance premium?,bill_due,bill_due
+263,"I think my electricity bill is overdue, can you confirm?",bill_due,bill_due
+267,Could you let me know the payment status of my cell phone bill?,bill_due,bill_due
+268,When is the due date of my Texas Gas bill?,bill_due,bill_due
+270,Have I cleared my last phone bill payment?,bill_due,bill_due
+274,When is the final date to pay my personal electric bill?,bill_due,bill_due
+275,Did I forget to pay my cable bill last month?,bill_due,bill_due
+277,Could you let me know the payment due date of my State Farm bill?,bill_due,bill_due
+279,When is my next credit card statement due date?,bill_due,bill_due
+280,Has my utility bill been paid yet?,bill_due,bill_due
+281,Can you tell me when my internet bill is due?,bill_due,bill_due
+283,Could you check when my natural gas bill is due?,bill_due,bill_due
+285,"I believe my water bill is overdue, is that true?",bill_due,bill_due
+287,When is my cell phone bill due?,bill_due,bill_due
+288,Could you verify if my cable bill has been paid?,bill_due,bill_due
+295,When is my credit card payment due?,bill_due,bill_due
+296,Have I made the full payment for my hospital bill?,bill_due,bill_due
+298,Could you let me know the date for the next payment of my gym membership?,bill_due,bill_due

@@ -1,0 +1,171 @@
+index,text,label,predicted
+6,Are there any fees associated with getting a replacement card?,replacement_card_duration,international_fees
+10,Can you explain the documents required to apply for a replacement card?,replacement_card_duration,new_card
+11,Do I need to deactivate my lost card before applying for a replacement?,replacement_card_duration,report_lost_card
+13,Will the new card have the same PIN as the old one?,replacement_card_duration,pin_change
+14,Will I be able to use the replacement card for online transactions?,replacement_card_duration,international_fees
+18,How do I request a replacement card?,replacement_card_duration,new_card
+20,Can I apply for a replacement card through mobile banking?,replacement_card_duration,new_card
+21,Is it possible to apply for a replacement card over the phone?,replacement_card_duration,new_card
+22,Will the replacement card have the same credit limit as the original?,replacement_card_duration,credit_limit
+24,Can I apply for a new card if I don't want a replacement?,replacement_card_duration,new_card
+30,What happens to any pending transactions on my lost card?,replacement_card_duration,transactions
+32,Will the replacement card have the same rewards program as the original?,replacement_card_duration,rewards_balance
+33,Can I request a replacement card from a different account?,replacement_card_duration,new_card
+34,Will I have to update any automatic payment information for recurring charges with the new card?,replacement_card_duration,international_fees
+35,Is there an option to expedite the review process for a replacement card application?,replacement_card_duration,application_status
+37,Will the replacement card have the same expiration date as the original?,replacement_card_duration,expiration_date
+38,Can I request a replacement for a damaged card as well?,replacement_card_duration,damaged_card
+39,Is there an option to upgrade the card when requesting a replacement?,replacement_card_duration,new_card
+41,Can I apply for a replacement card if I am traveling internationally?,replacement_card_duration,new_card
+42,What should I do if the replacement card itself is lost or stolen during delivery?,replacement_card_duration,report_lost_card
+44,Can I apply for a replacement card if I have a temporary hold on my account?,replacement_card_duration,account_blocked
+45,Are there any age restrictions for requesting a replacement card?,replacement_card_duration,new_card
+46,What happens to any rewards or points earned on the original card?,replacement_card_duration,rewards_balance
+48,Can I request a replacement card for a joint account?,replacement_card_duration,new_card
+49,Is there an option to disable a replacement card in case it is lost or stolen again?,replacement_card_duration,report_lost_card
+50,Can you tell me how many PTO days I have left?,pto_used,pto_balance
+51,How many vacation days do I have remaining?,pto_used,pto_balance
+52,What's my current PTO balance?,pto_used,balance
+53,I'd like to know how many days off I still have.,pto_used,pto_balance
+54,Can you provide me with my available PTO days?,pto_used,pto_balance
+55,Could you tell me the number of vacation days I have?,pto_used,pto_balance
+56,Please let me know how many PTOs I have left.,pto_used,pto_balance
+57,What's my PTO status?,pto_used,w2
+58,Could you give me an update on my PTO balance?,pto_used,income
+59,How many days of PTO am I entitled to?,pto_used,pto_balance
+60,I want to check the number of vacation days I have.,pto_used,pto_balance
+61,Can you tell me my remaining vacation days?,pto_used,pto_balance
+63,What is my current PTO entitlement?,pto_used,insurance
+64,Please let me know my unused vacation days.,pto_used,pto_balance
+65,Can you provide me with the available time off?,pto_used,pto_balance
+66,I need to know my PTO balance.,pto_used,balance
+67,What is the status of my vacation days?,pto_used,pto_balance
+68,Can you inform me about the number of PTO days I have left?,pto_used,pto_balance
+70,How many PTO days have I accrued this year?,pto_used,pto_balance
+71,Please tell my remaining time off balance.,pto_used,pto_balance
+72,Am I entitled to more vacation days this year?,pto_used,pto_balance
+74,How many holidays do I have available currently?,pto_used,pto_balance
+75,What is my current vacation day balance?,pto_used,pto_balance
+76,What's the status of my PTO entitlement?,pto_used,insurance
+77,Could you let me know my accrued PTO hours?,pto_used,pto_balance
+78,What's my vacation day allowance for this year?,pto_used,pto_balance
+79,Can I know the available days of PTO I have?,pto_used,pto_balance
+80,"I need to check my PTO balance, please.",pto_used,balance
+81,How many vacation days do I still have left?,pto_used,pto_balance
+82,Please tell me how much time off I have left.,pto_used,pto_balance
+83,What is the number of PTO days I have available?,pto_used,pto_balance
+84,Could you give me an update on my vacation balance?,pto_used,balance
+85,Please let me know my vacation entitlement.,pto_used,pto_request_status
+86,How many PTO days do I have left for this year?,pto_used,pto_balance
+88,"Can you update me on my time off balance, please?",pto_used,pto_balance
+90,I'd like to know how many vacation days I get per year.,pto_used,pto_balance
+91,What is my PTO entitlement based on the company policy?,pto_used,insurance
+92,Could you please inform me about the remaining holidays?,pto_used,next_holiday
+93,I want to know the total number of PTO days I can take this year.,pto_used,pto_balance
+94,Please let me know my remaining vacation entitlement for this year.,pto_used,pto_balance
+95,What's my available time off balance?,pto_used,pto_balance
+96,Can you confirm my current PTO entitlement?,pto_used,application_status
+97,How many PTOs do I have available in my account?,pto_used,w2
+98,Could you update me on my vacation hours balance?,pto_used,pto_balance
+150,I’m not sure if I want to order takeout tonight.,maybe,order
+151,Perhaps I’ll have a salad to be healthy.,maybe,nutrition_info
+152,I’m unsure if the movie I want to watch is on Netflix.,maybe,oos
+153,Maybe I’ll skip the gym today and just go for a walk instead.,maybe,calendar_update
+154,I’m undecided on whether to choose the blue or green shirt.,maybe,roll_dice
+155,"Possibly, I’ll try the sushi at the new restaurant.",maybe,restaurant_suggestion
+156,I’m not sure which book I want to read next.,maybe,next_song
+157,Maybe I’ll go to the beach this weekend.,maybe,travel_suggestion
+158,Perhaps I’ll have a glass of wine with dinner.,maybe,meal_suggestion
+159,Unsure if I want to upgrade my phone or not.,maybe,sync_device
+160,Maybe I’ll ask my boss for a raise next week.,maybe,payday
+161,I’m undecided on whether to get a cat or a dog as a pet.,maybe,do_you_have_pets
+162,I’m not sure if my car needs an oil change yet.,maybe,oil_change_when
+163,"Possibly, I’ll take a yoga class this afternoon.",maybe,calendar_update
+164,Maybe I’ll go to bed early tonight.,maybe,alarm
+165,Perhaps I’ll try the spicy curry dish instead of my usual.,maybe,meal_suggestion
+166,I’m unsure if I want to have kids in the future.,maybe,do_you_have_pets
+167,I’m undecided on which color to paint the living room.,maybe,oos
+168,Maybe I’ll go to the concert alone.,maybe,card_declined
+169,I’m not sure if I want to switch jobs or stay at my current one.,maybe,who_do_you_work_for
+170,"Possibly, I’ll take a day trip to a nearby city this weekend.",maybe,pto_request
+171,Maybe I’ll try a new hobby.,maybe,what_are_your_hobbies
+172,Perhaps I’ll take a break from social media today.,maybe,freeze_account
+173,I’m undecided on whether to buy the expensive shoes or the cheaper ones.,maybe,order
+174,Maybe I’ll sign up for a cooking class.,maybe,oos
+175,I’m not sure if I want to go to the party tonight.,maybe,cancel_reservation
+176,"Possibly, I’ll try a vegetarian diet for a week.",maybe,nutrition_info
+177,Perhaps I’ll take a break from caffeine for a few days.,maybe,pto_request
+178,I’m unsure if I want to attend the conference next month.,maybe,calendar
+179,I’m undecided on whether to buy the book or rent it from the library.,maybe,order
+180,Maybe I’ll try a new coffee shop.,maybe,restaurant_suggestion
+181,Perhaps I’ll have dessert tonight even though I’m on a diet.,maybe,meal_suggestion
+182,I’m not sure if I want to invest in stocks or bonds.,maybe,oos
+183,"Possibly, I’ll take a pottery class on the weekend.",maybe,oos
+184,Maybe I’ll go for a hike in the mountains.,maybe,travel_suggestion
+185,I’m unsure if I want to continue with this relationship.,maybe,cancel
+186,I’m undecided on which movie to watch tonight.,maybe,what_song
+187,Perhaps I’ll try a new hairstyle this week.,maybe,oos
+188,I’m not sure if I want to buy a new car or stick with my old one.,maybe,gas_type
+189,Maybe I’ll go to the museum this weekend.,maybe,calendar_update
+190,"Possibly, I’ll try a hot air balloon ride for the first time.",maybe,oos
+191,I’m undecided on whether to order pizza or Chinese food tonight.,maybe,meal_suggestion
+192,Maybe I’ll try a new brand of coffee.,maybe,meal_suggestion
+193,Perhaps I’ll take a day off from work.,maybe,pto_request
+194,I’m unsure if I want to take a vacation this year.,maybe,pto_request
+195,I’m not sure if I want to join the gym or exercise at home.,maybe,oos
+196,"Possibly, I’ll start a new exercise routine this week.",maybe,oos
+197,Maybe I’ll go to the farmer’s market on the weekend.,maybe,calendar_update
+198,Perhaps I’ll try a new ethnic restaurant in town.,maybe,restaurant_suggestion
+199,I’m undecided on whether to cut my hair or keep it long.,maybe,oil_change_when
+203,Can you tell me the distance between two streets?,distance,directions
+207,What is the distance between two metro stations?,distance,directions
+209,Can you tell me the distance between my house and the supermarket?,distance,directions
+211,What is the distance between two landmarks?,distance,oos
+213,How long is the flight from London to Paris?,distance,flight_status
+215,How far is it from here to the nearest hospital?,distance,directions
+216,Can you tell me the distance between two tourist attractions?,distance,oos
+218,What is the distance between my office and the airport?,distance,directions
+219,How far is the bus station from here?,distance,directions
+224,What is the distance between two buildings on campus?,distance,directions
+225,How long is the flight from New York to London?,distance,flight_status
+226,What is the distance between two airports?,distance,directions
+227,How far away is the nearest train station?,distance,directions
+229,Can you tell me the distance between two schools?,distance,oos
+231,What is the distance between two national parks?,distance,oos
+233,What is the distance between two hospitals?,distance,oos
+234,How far is it to the nearest pharmacy?,distance,directions
+235,How long is the flight from Dubai to Sydney?,distance,flight_status
+236,What is the distance between two neighborhoods?,distance,directions
+238,Can you tell me the distance between two landmarks in Paris?,distance,oos
+244,How far is it from here to the nearest police station?,distance,directions
+245,Can you tell me the distance between two restaurants?,distance,directions
+246,How long is the flight from Sydney to Los Angeles?,distance,flight_status
+249,What is the distance between two shopping centers?,distance,directions
+251,How much do I owe on my phone bill?,bill_due,bill_balance
+253,What's the status of my mortgage payment?,bill_due,bill_balance
+254,Have I missed any payments on my credit card?,bill_due,transactions
+256,How much do I owe on my student loans?,bill_due,bill_balance
+259,Have I made any payments towards my medical bills?,bill_due,bill_balance
+260,I'm curious about my outstanding balance on my personal loan.,bill_due,interest_rate
+262,Could you remind me when my Netflix subscription is up for renewal?,bill_due,expiration_date
+264,Can I have an update on my tuition fee payment?,bill_due,bill_balance
+265,Is there a balance due on my Visa card?,bill_due,bill_balance
+266,Did I miss any payments on my auto loan?,bill_due,transactions
+269,I'm curious about how much I owe on my car insurance premium.,bill_due,bill_balance
+271,Can you give me an update on my property tax payment?,bill_due,taxes
+272,Is there a remaining balance on my Home Depot credit card?,bill_due,balance
+273,What's the payment status on my dental bill?,bill_due,bill_balance
+276,How much do I owe on my JCPenney credit card?,bill_due,bill_balance
+278,What is the outstanding amount on my medical bills?,bill_due,bill_balance
+282,How much do I owe on my Walmart credit card?,bill_due,bill_balance
+284,Have I missed any payments for my electricity bill?,bill_due,transactions
+286,What is the status of my tuition payment?,bill_due,bill_balance
+289,How much do I owe on my Macy's credit card?,bill_due,bill_balance
+290,Have I missed any payments on my mortgage?,bill_due,transactions
+291,What's my current balance on my health insurance dues?,bill_due,bill_balance
+292,Could you let me know when I need to renew my car registration?,bill_due,expiration_date
+293,Is there a balance due on my Dish Network bill?,bill_due,bill_balance
+294,Can you give me the status of my tuition payment for next semester?,bill_due,bill_balance
+297,"I think I forgot to pay my credit card bill, could you confirm?",bill_due,pay_bill
+299,Is there a remaining balance on my CarMax auto loan?,bill_due,balance

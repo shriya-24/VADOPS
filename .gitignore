@@ -2,3 +2,4 @@ checkpoints/
 predictions/
 scripts/logs
 training_dynamics/
+output/

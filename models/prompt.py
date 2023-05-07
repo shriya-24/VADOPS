@@ -7,7 +7,7 @@ import re
 import time
 
 import sys
-openai.api_key = "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" # Use your own API Key here
+openai.api_key = "" # Use your own API Key here
 
 
 # Setting hyperparameters
@@ -122,7 +122,9 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
         
     return lines_to_add
 
-def convert_to_csv(res,generated_csv_path):
+def save_generated_examples(res,generated_csv_path,generated_json_path):
+    with open(generated_json_path,"w") as outfile:
+       json.dump(res,outfile)
     idx = 0;
     d = pd.DataFrame()
 
@@ -142,9 +144,17 @@ def convert_to_csv(res,generated_csv_path):
     return
     
 if __name__ == "__main__":
-#    print(os.path.abspath(os.getcwd()))
-#    print(os.path.dirname(os.path.abspath(__file__)))
- 
+   """
+   Args:
+   1. prompt_llm: Name of the Prompting LLM to be used. Useful for naming
+                  the generated files
+   2. prompt_type: Different type of prompting format, refer to 
+                   prompts/templates/README.md for all the prompt formats. 
+                   This parameter expects an integer between 1 and 4 (both 
+                   inclusive)
+   3. num_gen: Integer Parameter to specify how many examples to be generated from each                prompt.
+        
+   """
    prompt_llm = sys.argv[1]
    prompt_type = int(sys.argv[2])
    num_gen = int(sys.argv[3])
@@ -157,14 +167,11 @@ if __name__ == "__main__":
    get_worst_examples("../analysis/IntentClass_Analysis_Trainset-clinc_plus_train.csv","../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv") 
    # return
    res = get_more_data(prompt_type,ic_path,ice_path,num_gen=num_gen)
-   with open(generated_json_path,"w") as outfile:
-       json.dump(res,outfile)
     
    
 #    with open(generated_text_json, 'r') as openfile:
 #         # Reading from json file
        # res = json.load(outfile)
  
-   print(res)
-   convert_to_csv(res,generated_csv_path)
+   save_generated_examples(res,generated_csv_path,generated_json_path)
    print(res)

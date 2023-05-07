@@ -7,7 +7,7 @@ import re
 import time
 
 import sys
-openai.api_key = "" # Use your own API Key here
+openai.api_key = "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" # Use your own API Key here
 
 
 # Setting hyperparameters
@@ -157,7 +157,8 @@ if __name__ == "__main__":
    """
    prompt_llm = sys.argv[1]
    prompt_type = int(sys.argv[2])
-   num_gen = int(sys.argv[3])
+   num_eg = int(sys.argv[3])
+   num_gen = int(sys.argv[4])
 
    generated_json_path = f'../prompts/generated_text/{prompt_llm}_prompt{prompt_type}.json'
    generated_csv_path = f'../prompts/generated_text/{prompt_llm}_prompt{prompt_type}.csv'
@@ -166,7 +167,7 @@ if __name__ == "__main__":
    ice_path = "../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv"
    get_worst_examples("../analysis/IntentClass_Analysis_Trainset-clinc_plus_train.csv","../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv") 
    # return
-   res = get_more_data(prompt_type,ic_path,ice_path,num_gen=num_gen)
+   res = get_more_data(prompt_type,ic_path,ice_path,num_eg=num_eg,num_gen=num_gen)
     
    
 #    with open(generated_text_json, 'r') as openfile:

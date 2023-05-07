@@ -33,13 +33,13 @@ def get_worst_examples(intent_class_file, intent_examples_file):
 
     intent_class_df = intent_class_df[(intent_class_df.recall <1) & (intent_class_df.label != "oos")]
     worst_intents = intent_class_df.label.tolist()
-    intent_example_df = intent_example_df[(intent_example_df['TrueLabel']  == intent_example_df['PredictedLabel']) & (intent_example_df['TrueLabel'] != "oos")]
+    intent_example_df = intent_example_df[(intent_example_df['True Label']  == intent_example_df['Predicted Label']) & (intent_example_df['True Label'] != "oos")]
     worst_intent_eg = {}
     for intent in worst_intents:
         if intent not in worst_intent_eg:
-            worst_intent_eg[intent] = intent_example_df[intent_example_df['TrueLabel'] == intent].Text.tolist()
+            worst_intent_eg[intent] = intent_example_df[intent_example_df['True Label'] == intent].Text.tolist()
         else:
-            worst_intent_eg[intent].append(intent_example_df[intent_example_df['TrueLabel'] == intent].Text.tolist())
+            worst_intent_eg[intent].append(intent_example_df[intent_example_df['True Label'] == intent].Text.tolist())
     return worst_intent_eg
 
 def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=0,num_gen=10):

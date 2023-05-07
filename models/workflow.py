@@ -9,7 +9,7 @@ from transformers import pipeline
 import pandas as pd
 import torch
 
-from prompt import get_more_data
+from prompt import get_more_data 
 from main import finetune, eval, calc_entropy_loss, plot as plot_data_map
 
 from SNIPS import load_data as load_snips
@@ -63,7 +63,7 @@ def workflow(config):
     # deconstruct config object
     pretrained_model_name_or_path: str = config['model_name_or_path']
     training_args = config['training_args']
-    
+    prompt_args = config["prompts"]    
     ## load dataset
     dataset = None
     if config['dataset_name'] == 'clinc_oos':
@@ -181,10 +181,13 @@ def workflow(config):
         # generate data
         print('generate data')
         data_from = config['generate_data_from']
+        prompt_llm = prompt_args["prompt_llm"]
+        prompt_type = int(prompt_args["prompt_type"])
+        num_gen = int(prompt_args["num_gen"])
         intent_analysis_file_path = os.path.join(intent_analysis_dir, f'{data_from}.csv')
         entropy_file_path = os.path.join(entropy_dir, f'{data_from}.csv')
 
-        data_dict = get_more_data(1, intent_analysis_file_path, entropy_file_path)
+        data_dict = get_more_data(prompt_type, intent_analysis_file_path, entropy_file_path,num_gen=num_gen)
 
         data_df = pd.DataFrame(columns= ['text', 'true_label'])
         for intent in data_dict:

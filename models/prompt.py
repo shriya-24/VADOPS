@@ -122,7 +122,9 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
         
     return lines_to_add
 
-def convert_to_csv(res,generated_csv_path):
+def save_generated_examples(res,generated_csv_path,generated_json_path):
+    with open(generated_json_path,"w") as outfile:
+       json.dump(res,outfile)
     idx = 0;
     d = pd.DataFrame()
 
@@ -165,14 +167,11 @@ if __name__ == "__main__":
    get_worst_examples("../analysis/IntentClass_Analysis_Trainset-clinc_plus_train.csv","../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv") 
    # return
    res = get_more_data(prompt_type,ic_path,ice_path,num_gen=num_gen)
-   with open(generated_json_path,"w") as outfile:
-       json.dump(res,outfile)
     
    
 #    with open(generated_text_json, 'r') as openfile:
 #         # Reading from json file
        # res = json.load(outfile)
  
-   print(res)
-   convert_to_csv(res,generated_csv_path)
+   save_generated_examples(res,generated_csv_path,generated_json_path)
    print(res)

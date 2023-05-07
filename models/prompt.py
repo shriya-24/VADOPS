@@ -48,11 +48,8 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
     with open(promptjson, 'r') as openfile:
         # Reading from json file
         json_object = json.load(openfile)
- 
-    print(json_object)
     
     prompt_fill = "prompt"+str(prompttype)
-    print(type(prompttype))
     if prompttype != 4:
         prompt = json_object[prompt_fill][0]
 
@@ -66,8 +63,8 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
     else:
         prompt = json_object[prompt_fill][intentname]
     prompt = prompt.replace("{num_gen}",str(num_gen))
-    print(prompt)
     if prompttype != 4:
+        examples = ""
         if num_eg > 0:
             #TODO: Add a file reading functionality to fetch examples from highest cross entropy classes
             examples += "\nExamples:\n"
@@ -104,6 +101,7 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
             completion = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
                     messages=[{"role": "user", "content": prompt_list[len(prompt_list)-1]}])
+            
         except Exception as e:
             print('Rate Limit reached or OpenAI server overloaded. so sleeping the function for 60 seconds', e)
             time.sleep(60)
@@ -116,6 +114,7 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
             if re.match('^\d', l):
                 l = re.sub(r'^\d+\.\s+', '', l)
                 lines.append(l)
+
 
         lines_to_add[intent_list[index]] = lines
         index += 1
@@ -175,4 +174,3 @@ if __name__ == "__main__":
        # res = json.load(outfile)
  
    save_generated_examples(res,generated_csv_path,generated_json_path)
-   print(res)

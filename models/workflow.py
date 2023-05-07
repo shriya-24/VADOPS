@@ -9,7 +9,7 @@ from transformers import pipeline
 import pandas as pd
 import torch
 
-from prompt import get_more_data, save_generated_examples
+from prompt import get_more_data 
 from main import finetune, eval, calc_entropy_loss, plot as plot_data_map
 
 from SNIPS import load_data as load_snips
@@ -181,10 +181,7 @@ def workflow(config):
         intent_analysis_file_path = os.path.join(intent_analysis_dir, f'{data_from}.csv')
         entropy_file_path = os.path.join(entropy_dir, f'{data_from}.csv')
 
-        generated_json_path = f'../prompts/generated_text/{prompt_llm}_prompt{prompt_type}.json'
-        generated_csv_path = f'../prompts/generated_text/{prompt_llm}_prompt{prompt_type}.csv'
         data_dict = get_more_data(prompt_type, intent_analysis_file_path, entropy_file_path,num_gen=num_gen)
-        save_generated_examples(data_dict,generated_csv_path,generated_json_path)
 
         data_df = pd.DataFrame(columns= ['text', 'true_label'])
         for intent in data_dict:

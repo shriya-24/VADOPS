@@ -52,13 +52,13 @@ All the scripts load conda and activate vadops environment(`/work/pi_adrozdov_um
   - Need 2 command args:
     - dataset_subset: specify clinc dataset subset you wanna choose. options are ['small', 'imbalanced', 'plus']
     - checkpoints_out_dir: specify filepath where you want finetuning checkpoint to be saved
-    - cartography_split: Specify the dataset split from ['train', 'validation'] for which you gonna log the training dynamics
-    - log_training_dynamics_dir: specify the dir path to store the training dynamics
+    - cartography_splits: Specify the dataset split from ['train', 'validation'] to log dynamics. You can add multiple values with comma seperated.
+    - log_dynamics_dir: specify the dir path to store the dynamics
    
 
     Command: 
     
-    ```sbatch finetune_clinc_cartography.sh {clinc_subset} /path/to/checkpoint {cartography_split} {log_training_dynamics_dir}```
+    ```sbatch finetune_clinc_cartography.sh {clinc_subset} /path/to/checkpoint {cartography_split} {log_dynamics_dir}```
 
     Example: 
     
@@ -69,12 +69,12 @@ All the scripts load conda and activate vadops environment(`/work/pi_adrozdov_um
   - calls finetune method in `models/SNIPS.py` file.
   - Need 1 command arg:
     - checkpoints_out_dir: specify filepath where you want finetuning checkpoint to be saved
-    - cartography_split: Specify the dataset split from ['train', 'validation'] for which you gonna log the training dynamics
-    - log_training_dynamics_dir: specify the dir path to store the training dynamics
+    - cartography_splits: Specify the dataset split from ['train', 'validation'] to log dynamics. You can add multiple values with comma seperated.
+    - log_dynamics_dir: specify the dir path to store the dynamics
 
     Command:
     
-    ```sbatch finetune_snips_cartography.sh /path/to/checkpoint {cartography_split} {log_training_dynamics_dir}```
+    ```sbatch finetune_snips_cartography.sh /path/to/checkpoint {cartography_split} {log_dynamics_dir}```
 
     Example:
 
@@ -149,14 +149,27 @@ All the scripts load conda and activate vadops environment(`/work/pi_adrozdov_um
 ## plot_dataMap.sh:
   - calls plot method in `models/main.py`file. 
   - Need 3 command args:
-    - log_training_dynamics_dir: specify the training dynamics folder path
+    - log_dynamics_dir: specify the dynamics folder path
     - plot_dir: specify the plot_dir path to save the graph
-    - dataset_name: specify the dataset_name for which the training dynamics are generated
+    - title: specify title for the graph
 
     Command: 
     
-    ```sbatch plot_dataMap.sh /path/to/log_training_dynamics_dir  /path/to/plot_dir {dataset_name}```
+    ```sbatch plot_dataMap.sh /path/to/log_dynamics_dir  /path/to/plot_dir {dataset_name}```
     
     Example: 
     
     ```sbatch plot_dataMap.sh ../training_dynamics/clinc_small /datamap_graphs clinc_small_train```
+
+## workflow.sh
+  - calls workflow function in `models/workflow.py` file. 
+    - Need 1 command args:
+      - config_file_path: specify workflow configuration path
+
+    Command: 
+    
+    ```sbatch workflow.sh /path/to/workflow_config_json_file```
+    
+    Example: 
+    
+    ```sbatch workflow.sh ../workflow_configs/config.json```

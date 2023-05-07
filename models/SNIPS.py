@@ -4,7 +4,7 @@ import pandas as pd
 
 from datasets import load_dataset, DatasetDict
 from transformers import TrainingArguments
-from main import finetune, eval, preprocess_function, calc_entropy_loss
+from main import finetune, eval, calc_entropy_loss
 from sys import argv as args
 import os
 
@@ -12,6 +12,7 @@ from datasets import DatasetDict, ClassLabel
 
 
 # variables
+L_model = "roberta-base"
 dataset_name = 'SNIPS'
 function_names = ['eval', 'finetune', 'download', 'calc_entropy_loss']
 dataset_types = ["train", "validation", "test"]
@@ -20,6 +21,9 @@ snips_data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../da
 def download_data():
     """Downloading the snips dataset from github
     """
+
+    os.makedirs(snips_data_path)
+
     SNIPS_DATA_BASE_URL = (
         "https://github.com/ogrisel/slot_filling_and_intent_detection_of_SLU/blob/"
         "master/data/snips/")
@@ -104,12 +108,16 @@ if __name__ == "__main__":
       b. for eval function - file path is required, this is evaluation metrics for each class is saved
     5. entropy_analysis_path:
       a. for calc_entropy_loss - file path is required, this is where the entropy of each sentence is saved
-    6. log_training_dynamics:
-      a. for finetune function - Please specify whether you wanna log the training dynamics or not. values are either True or False. By default it is False
-    7. cartography_split
-      a. for finetune function - Specify the dataset split from ['train', 'validation']. By default the value is train
-    8. log_training_dynamics_dir
-      a. for finetune function - specify the dir path to store the training dynamics
+    6. log_dynamics:
+      a. for finetune function - Please specify whether you wanna log the dynamics or not. values are either True or False. By default it is False
+    7. cartography_splits
+      a. for finetune function - Specify the dataset split from ['train', 'validation'] to log dynamics. You can add multiple splits with comma seperated.
+        Examples:
+         1. train, validation 
+         2. train
+         3. validation
+    8. log_dynamics_dir
+      a. for finetune function - specify the dir path to store the dynamics
     """
 
     if len(args) < 2 or args[1] not in function_names:
@@ -122,28 +130,35 @@ if __name__ == "__main__":
         if len(args) < 3:
             raise Exception("Please provide checkpoints_out_dir argument")
 
-        log_training_dynamics = False
-        cartography_split = 'train'
-        log_training_dynamics_dir = None
+        log_dynamics = False
+        cartography_splits = []
+        log_dynamics_dir = None
         
         # check for the optional arguments
         if len(args) >= 4:
             if args[3] not in ['False', 'True']:
-                raise Exception("Please provide either True or False value for log_training_dynamics argument")
+                raise Exception("Please provide either True or False value for log_dynamics argument")
             
-            log_training_dynamics = bool(args[3])
+            log_dynamics = bool(args[3])
 
-            # training dynamics logging is enabled
-            if log_training_dynamics:
-                if (len(args) < 5 or args[4] not in ['train', 'validation']):
-                    raise Exception("Please provide proper dataset split([train, validation]) value to log the training dynamics")
+            # dynamics logging is enabled
+            if log_dynamics:
+                if len(args) < 5:
+                    raise Exception("Please provide proper dataset split([train, validation]) value to log the dynamics")
             
-                cartography_split = args[4]
+                cartography_splits_text = args[4]
+                splits_arr = cartography_splits_text.split(",")
+
+                for split in splits_arr:
+                    split = split.strip()
+                    if split not in ['train', 'validation']:
+                        raise Exception("Please provide proper dataset split([train, validation]) value to log the dynamics")
+                    cartography_splits.append(split)
             
                 if len(args) < 6:
-                    raise Exception("Please specify log_training_dynamics_dir to save the training dynamics")
+                    raise Exception("Please specify log_dynamics_dir to save the dynamics")
                 
-                log_training_dynamics_dir = args[5]
+                log_dynamics_dir = args[5]
 
 
         checkpoints_out_dir = args[2]
@@ -156,9 +171,9 @@ if __name__ == "__main__":
         print("dataset", dataset_name)
         print("checkpoints_out_dir", Path(checkpoints_out_dir).absolute(),
               '-This is where the Finetuning checkpoints will be saved')
-        print('log_training_dynamics', log_training_dynamics)
-        print('cartography_split', cartography_split)
-        print("log_training_dynamics_dir", log_training_dynamics_dir)
+        print('log_dynamics', log_dynamics)
+        print('cartography_splits', cartography_splits)
+        print("log_dynamics_dir", log_dynamics_dir)
 
         train_data, valid_data = dataset['train'], dataset['validation']
 
@@ -172,10 +187,12 @@ if __name__ == "__main__":
             evaluation_strategy="epoch",
             save_strategy="epoch",
             load_best_model_at_end=True,
-            logging_steps=50
+            logging_steps=50,
+            save_total_limit = 2, # to limit saving checkpoints
+            seed = 42 # set seed here
         )
 
-        finetune(training_args, train_data, valid_data, log_training_dynamics=log_training_dynamics, cartography_split=cartography_split, log_training_dynamics_dir=log_training_dynamics_dir)
+        finetune(L_model, training_args, train_data, valid_data, log_dynamics=log_dynamics, cartography_splits=cartography_splits, log_dynamics_dir=log_dynamics_dir)
         print("Finetuning model: END")
 
     elif function_name == 'eval':

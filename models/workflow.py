@@ -69,6 +69,12 @@ def workflow(config):
     if config['dataset_name'] == 'clinc_oos':
         dataset = load_dataset('clinc_oos', config['dataset_subset'])
         dataset = dataset.rename_column("intent", "label")
+
+        # filtering the oos label
+        if "filter_oos_label" in config and config["filter_oos_label"]:
+            print('filtering the oos label')
+            dataset = dataset.filter(lambda example: example['label'] != 42) # oos label index is 42
+
     elif config['dataset_name'] == 'snips':
         dataset = load_snips()
     elif config['dataset_name'] == 'CSAbstruct':

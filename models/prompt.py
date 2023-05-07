@@ -7,7 +7,7 @@ import re
 import time
 
 import sys
-openai.api_key = "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" # Use your own API Key here
+openai.api_key = "" # Use your own API Key here
 
 
 # Setting hyperparameters

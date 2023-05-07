@@ -142,9 +142,17 @@ def convert_to_csv(res,generated_csv_path):
     return
     
 if __name__ == "__main__":
-#    print(os.path.abspath(os.getcwd()))
-#    print(os.path.dirname(os.path.abspath(__file__)))
- 
+   """
+   Args:
+   1. prompt_llm: Name of the Prompting LLM to be used. Useful for naming
+                  the generated files
+   2. prompt_type: Different type of prompting format, refer to 
+                   prompts/templates/README.md for all the prompt formats. 
+                   This parameter expects an integer between 1 and 4 (both 
+                   inclusive)
+   3. num_gen: Integer Parameter to specify how many examples to be generated from each                prompt.
+        
+   """
    prompt_llm = sys.argv[1]
    prompt_type = int(sys.argv[2])
    num_gen = int(sys.argv[3])

@@ -60,6 +60,9 @@ def workflow(config):
     print("Worflow configuration:")
     print(config)
 
+    # variables
+    dataset_types = ['train', 'validation', 'test']
+
     # deconstruct config object
     pretrained_model_name_or_path: str = config['model_name_or_path']
     training_args = config['training_args']
@@ -87,9 +90,6 @@ def workflow(config):
 
     output_dir: str = config['workflow_output_dir']
     steps: int = config['steps']
-    
-    # variables
-    dataset_types = ['train', 'validation', 'test']
 
     workflow_folder_name = "workflow" + datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     workflow_dir = os.path.join(output_dir, workflow_folder_name)
@@ -192,10 +192,11 @@ def workflow(config):
 
         data_df = pd.DataFrame(columns= ['text', 'true_label'])
         for intent in data_dict:
-            temp = pd.DataFrame(data_dict[intent])
-            temp.columns = ['text']
-            temp['true_label'] = intent
-            data_df = pd.concat([data_df, temp])
+            if data_dict[intent]: # avoiding empty arr scenario
+                temp = pd.DataFrame(data_dict[intent])
+                temp.columns = ['text']
+                temp['true_label'] = intent
+                data_df = pd.concat([data_df, temp])
 
         data_df.reset_index()
 

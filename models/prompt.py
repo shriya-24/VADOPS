@@ -7,7 +7,7 @@ import re
 import time
 
 import sys
-openai.api_key = "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" # Use your own API Key here
+openai.api_key = "" # Use your own API Key here
 
 
 # Setting hyperparameters
@@ -20,7 +20,7 @@ intent_check_list = ['whisper_mode', 'pto_balance']
 dataset_subset = hyper_params['dataset_subset']
 promptjson = '../prompts/templates/ChatGPT.json'
 # generated_text_json = '../prompts/generated_text/ChatGPT_prompt4.json'
-
+no_enumerate_prompt = "\nEach generated sentence should be on a separate line, and should not be enumerated or put in bullet points."
 #temp object for examples from worst classes
 worst_intent_examples = {
     "whisper_mode" : ["turn up your volume","turn your volume up"],
@@ -53,12 +53,12 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
     if prompttype != 4:
         prompt = json_object[prompt_fill][0]
 
-        if prompttype == 2:
+        if prompttype == 3:
             prompt = prompt.replace("{intent_name}",intentname)
             promptlist.append(prompt)
             prompt = json_object[prompt_fill][1]
 
-    # if prompttype != 4:
+    if prompttype != 4:
             prompt = prompt.replace("{intent_name}",intentname)
     else:
         prompt = json_object[prompt_fill][intentname]
@@ -71,7 +71,7 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
             for idx,eg in enumerate(worst_intent_labels[intentname]):
                 if idx+1 > num_eg:
                     break
-                prompt += f"{idx+1}) {eg}\n"
+                examples += f"{eg}\n"
             prompt = prompt.replace("{examples}",examples)
         else:
             prompt = prompt.replace("{examples}","")
@@ -85,8 +85,10 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
     # worst_intent_data = 
     il = get_worst_examples(ic_path,ice_path)
     intent_list = list(il.keys())
+    print(intent_list)
     index = 0
     while index < len(intent_list):
+        print(intent_list[index])
         prompt_list = construct_prompt(prompttype,"ChatGPT",intent_list[index],il,num_eg,num_gen)
         try:
             for idx,prompt in enumerate(prompt_list):
@@ -98,6 +100,7 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
                     model="gpt-3.5-turbo",
                     messages=[{"role": "user", "content": prompt}])
 
+            print(prompt_list[len(prompt_list)-1])
             completion = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
                     messages=[{"role": "user", "content": prompt_list[len(prompt_list)-1]}])
@@ -109,16 +112,18 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
 
         #lines to add to dataset train
         lines = []
+        print(completion.choices[0].message.content.splitlines())
         for l in completion.choices[0].message.content.splitlines():
             l = l.strip()
             if re.match('^\d', l):
                 l = re.sub(r'^\d+\.\s+', '', l)
                 lines.append(l)
 
-
+        print(lines)
         lines_to_add[intent_list[index]] = lines
+        print(f"Prompt_{index} completed")
         index += 1
-        
+
     return lines_to_add
 
 def save_generated_examples(res,generated_csv_path,generated_json_path):

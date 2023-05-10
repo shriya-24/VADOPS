@@ -60,6 +60,9 @@ def workflow(config):
     print("Worflow configuration:")
     print(config)
 
+    # variables
+    dataset_types = ['train', 'validation', 'test']
+
     # deconstruct config object
     pretrained_model_name_or_path: str = config['model_name_or_path']
     training_args = config['training_args']
@@ -69,6 +72,12 @@ def workflow(config):
     if config['dataset_name'] == 'clinc_oos':
         dataset = load_dataset('clinc_oos', config['dataset_subset'])
         dataset = dataset.rename_column("intent", "label")
+
+        # filtering the oos label
+        if "filter_oos_label" in config and config["filter_oos_label"]:
+            print('filtering the oos label')
+            dataset = dataset.filter(lambda example: example['label'] != 42) # oos label index is 42
+
     elif config['dataset_name'] == 'snips':
         dataset = load_snips()
     elif config['dataset_name'] == 'CSAbstruct':
@@ -81,9 +90,6 @@ def workflow(config):
 
     output_dir: str = config['workflow_output_dir']
     steps: int = config['steps']
-    
-    # variables
-    dataset_types = ['train', 'validation', 'test']
 
     workflow_folder_name = "workflow" + datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     workflow_dir = os.path.join(output_dir, workflow_folder_name)
@@ -186,10 +192,11 @@ def workflow(config):
 
         data_df = pd.DataFrame(columns= ['text', 'true_label'])
         for intent in data_dict:
-            temp = pd.DataFrame(data_dict[intent])
-            temp.columns = ['text']
-            temp['true_label'] = intent
-            data_df = pd.concat([data_df, temp])
+            if data_dict[intent]: # avoiding empty arr scenario
+                temp = pd.DataFrame(data_dict[intent])
+                temp.columns = ['text']
+                temp['true_label'] = intent
+                data_df = pd.concat([data_df, temp])
 
         data_df.reset_index()
 

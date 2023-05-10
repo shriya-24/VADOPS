@@ -11,8 +11,8 @@
   "model_name_or_path": "roberta-base",
   "prompts":{
   	"prompt_llm":"ChatGPT",
-	"prompt_type":1,
-	"num_gen":50,
+	  "prompt_type":1,
+	  "num_gen":50,
     "num_eg":1
   },
   "training_args": {
@@ -26,5 +26,6 @@
     "load_best_model_at_end": true,
     "save_total_limit" : 2,
     "seed": 42
-  }
+  },
+  "filter_oos_label": false
 }

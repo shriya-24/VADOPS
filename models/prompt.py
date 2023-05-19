@@ -27,20 +27,39 @@ worst_intent_examples = {
     "pto_balance" : ["how much paid time off have i earned to date"]
         }
 
-def get_worst_examples(intent_class_file, intent_examples_file):
+def get_worst_examples(intent_class_file, intent_examples_file,num_good,num_bad):
+    random.seed(42)
     intent_class_df = pd.read_csv(intent_class_file,sep=',')
     intent_example_df = pd.read_csv(intent_examples_file,sep=',')
 
+    # Currently doing only for worst performing classes
     intent_class_df = intent_class_df[(intent_class_df.recall <1) & (intent_class_df.label != "oos")]
-    worst_intents = intent_class_df.label.tolist()
-    intent_example_df = intent_example_df[(intent_example_df['True Label']  == intent_example_df['Predicted Label']) & (intent_example_df['True Label'] != "oos")]
+    
+    # Currently for worst intent examples
+    intent_example_df_bad = intent_example_df[(intent_example_df['True Label']  != intent_example_df['Predicted Label']) & (intent_example_df['True Label'] != "oos")]
     worst_intent_eg = {}
     for intent in worst_intents:
+        # TODO: decide whether num_bad is greater than the number of generated examples
+        # print(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist())
+        selected_examples = random.sample(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist(),num_bad)
         if intent not in worst_intent_eg:
-            worst_intent_eg[intent] = intent_example_df[intent_example_df['True Label'] == intent].Text.tolist()
+            worst_intent_eg[intent] = selected_examples
         else:
-            worst_intent_eg[intent].append(intent_example_df[intent_example_df['True Label'] == intent].Text.tolist())
-    return worst_intent_eg
+            worst_intent_eg[intent] = worst_intent_eg[intent] + selected_examples
+            
+    # Currently for good examples
+    intent_example_df_good = intent_example_df[(intent_example_df['True Label']  == intent_example_df['Predicted Label']) & (intent_example_df['True Label'] != "oos")]
+    # best_intent_eg = {}
+    for intent in worst_intents:
+        # TODO: decide whether num_good is greater than the number of generated examples
+        print(intent_example_df_good[intent_example_df_good['True Label'] == intent].Text.tolist())
+        selected_examples = random.sample(intent_example_df_good[intent_example_df_good['True Label'] == intent].Text.tolist(),num_good)
+        if intent not in worst_intent_eg:
+            worst_intent_eg[intent] = selected_examples
+        else:
+            worst_intent_eg[intent] = worst_intent_eg[intent] + selected_examples
+    print(worst_intent_eg)
+    return worst_intent_eg 
 
 def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=0,num_gen=10):
     # Opening JSON file
@@ -79,13 +98,14 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
     return promptlist
         
 
-def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
+def get_more_data(prompttype,ic_path,ice_path,num_good,num_bad,num_eg = 0,num_gen=10):
 
     lines_to_add = {}
     # worst_intent_data = 
-    il = get_worst_examples(ic_path,ice_path)
+    il = get_worst_examples(ic_path,ice_path,num_good,num_bad)
     intent_list = list(il.keys())
     print(intent_list)
+    return lines_to_add
     index = 0
     while index < len(intent_list):
         print(intent_list[index])
@@ -100,7 +120,7 @@ def get_more_data(prompttype,ic_path,ice_path,num_eg = 0,num_gen=10):
                     model="gpt-3.5-turbo",
                     messages=[{"role": "user", "content": prompt}])
 
-            print(prompt_list[len(prompt_list)-1])
+            print(prompt_list)
             completion = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
                     messages=[{"role": "user", "content": prompt_list[len(prompt_list)-1]}])
@@ -162,16 +182,18 @@ if __name__ == "__main__":
    prompt_llm = sys.argv[1]
    prompt_type = int(sys.argv[2])
    num_eg = int(sys.argv[3])
-   num_gen = int(sys.argv[4])
+   num_good = int(sys.argv[4])
+   num_bad = int(sys.argv[5])
+   num_gen = int(sys.argv[6])
 
    generated_json_path = f'../prompts/generated_text/{prompt_llm}_prompt{prompt_type}.json'
    generated_csv_path = f'../prompts/generated_text/{prompt_llm}_prompt{prompt_type}.csv'
    
    ic_path = "../analysis/IntentClass_Analysis_Trainset-clinc_plus_train.csv"
    ice_path = "../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv"
-   get_worst_examples("../analysis/IntentClass_Analysis_Trainset-clinc_plus_train.csv","../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv") 
+   # get_worst_examples("../analysis/IntentClass_Analysis_Trainset-clinc_plus_train.csv","../analysis/Cross_entropy_analysis_train_set-clinc_plus_train.csv") 
    # return
-   res = get_more_data(prompt_type,ic_path,ice_path,num_eg=num_eg,num_gen=num_gen)
+   res = get_more_data(prompt_type,ic_path,ice_path,num_good,num_bad,num_eg=num_eg,num_gen=num_gen)
     
    
 #    with open(generated_text_json, 'r') as openfile:

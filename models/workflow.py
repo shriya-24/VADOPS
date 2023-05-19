@@ -185,10 +185,12 @@ def workflow(config):
         prompt_type = int(prompt_args["prompt_type"])
         num_gen = int(prompt_args["num_gen"])
         num_eg = int(prompt_args["num_eg"])
+        num_good = int(prompt_args["num_good"])
+        num_bad = int(prompt_args["num_bad"])
         intent_analysis_file_path = os.path.join(intent_analysis_dir, f'{data_from}.csv')
         entropy_file_path = os.path.join(entropy_dir, f'{data_from}.csv')
 
-        data_dict = get_more_data(prompt_type, intent_analysis_file_path, entropy_file_path,num_eg=num_eg,num_gen=num_gen)
+        data_dict = get_more_data(prompt_type, intent_analysis_file_path, entropy_file_path,num_good,num_bad,num_eg=num_eg,num_gen=num_gen)
 
         data_df = pd.DataFrame(columns= ['text', 'true_label'])
         for intent in data_dict:

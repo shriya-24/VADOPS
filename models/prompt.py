@@ -7,7 +7,7 @@ import re
 import time
 
 import sys
-openai.api_key = "" # Use your own API Key here
+openai.api_key = "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" # Use your own API Key here
 
 
 # Setting hyperparameters
@@ -27,6 +27,30 @@ worst_intent_examples = {
     "pto_balance" : ["how much paid time off have i earned to date"]
         }
 
+def get_bad_examples(intent_eg,intent_example_df,intent,num_bad,eg_type="recall"):
+    intent_example_df_bad = intent_example_df[(intent_example_df['True Label']  != intent_example_df['Predicted Label']) & (intent_example_df['True Label'] != "oos")]
+    intent_example_df_bad_rec = intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist()
+    intent_example_df_bad_prec = intent_example_df_bad[intent_example_df_bad['Predicted Label'] == intent].Text.tolist()
+    
+    if eg_type == "recall":
+        eg_list = intent_example_df_bad_rec
+    elif eg_type == "precision":
+        eg_list = intent_example_df_bad_prec
+    elif eg_type == "f1-score":
+        eg_list = intent_example_df_bad_rec + intent_example_df_bad_prec
+    
+    # handling insufficient wrong examples
+    if len(eg_list) < num_bad:
+            num_bad = len(eg_list)
+    selected_examples = random.sample(eg_list,num_bad)
+    if intent not in intent_eg:
+            intent_eg[intent] = selected_examples
+    else:
+        intent_eg[intent] = intent_eg[intent] + selected_examples
+    
+    return intent_eg
+    
+
 def get_worst_examples(intent_class_file, intent_examples_file,num_good,num_bad,eg_type="recall"):
     random.seed(42)
     intent_class_df = pd.read_csv(intent_class_file,sep=',')
@@ -38,23 +62,24 @@ def get_worst_examples(intent_class_file, intent_examples_file,num_good,num_bad,
     elif eg_type == "precision":
         intent_class_df = intent_class_df[(intent_class_df.loc[:,"precision"] <1) & (intent_class_df.label != "oos")]
     elif eg_type == "f1-score":
-        intent_class_df = intent_class_df[(intent_class_df.loc[:,"precision"] <1) & (intent_class_df.label != "oos")]
+        intent_class_df = intent_class_df[(intent_class_df.loc[:,"f1-score"] <1) & (intent_class_df.label != "oos")]
     worst_intents = intent_class_df.label.tolist()
     
     # Currently for worst intent examples
-    intent_example_df_bad = intent_example_df[(intent_example_df['True Label']  != intent_example_df['Predicted Label']) & (intent_example_df['True Label'] != "oos")]
+    # intent_example_df_bad = intent_example_df[(intent_example_df['True Label']  != intent_example_df['Predicted Label']) & (intent_example_df['True Label'] != "oos")]
     worst_intent_eg = {}
     for intent in worst_intents:
-        # TODO: decide whether num_bad is greater than the number of generated examples
-        # print(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist())
-        print(f"Num Bad: {num_bad} Available: {len(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist())}")
-        if len(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist()) < num_bad:
-            num_bad = len(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist())
-        selected_examples = random.sample(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist(),num_bad)
-        if intent not in worst_intent_eg:
-            worst_intent_eg[intent] = selected_examples
-        else:
-            worst_intent_eg[intent] = worst_intent_eg[intent] + selected_examples
+    #     # TODO: decide whether num_bad is greater than the number of generated examples
+    #     # print(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist())
+    #     print(f"Num Bad: {num_bad} Available: {len(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist())}")
+    #     if len(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist()) < num_bad:
+    #         num_bad = len(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist())
+    #     selected_examples = random.sample(intent_example_df_bad[intent_example_df_bad['True Label'] == intent].Text.tolist(),num_bad)
+    #     if intent not in worst_intent_eg:
+    #         worst_intent_eg[intent] = selected_examples
+    #     else:
+    #         worst_intent_eg[intent] = worst_intent_eg[intent] + selected_examples
+        worst_intent_eg = get_bad_examples(worst_intent_eg,intent_example_df,intent,num_bad,eg_type)
             
     # Currently for good examples
     intent_example_df_good = intent_example_df[(intent_example_df['True Label']  == intent_example_df['Predicted Label']) & (intent_example_df['True Label'] != "oos")]

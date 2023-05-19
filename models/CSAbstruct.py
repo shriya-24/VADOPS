@@ -13,7 +13,7 @@ from datasets import DatasetDict, ClassLabel
 
 
 # variables
-L_model = "roberta-base"
+L_model = "allenai/scibert_scivocab_uncased"
 dataset_name = 'CSAbstruct'
 function_names = ['eval', 'finetune', 'download', 'calc_entropy_loss']
 dataset_types = ["train", "validation", "test"]
@@ -66,12 +66,15 @@ def load_data() -> DatasetDict:
     dataset_dict = DatasetDict()
     # itreate each dataset type
     for dataset_type in dataset_types:
+        if dataset_type == 'validation': # github repo has validation data as dev file name
+            dataset_type = 'dev'
         file_name = os.path.join(CSAbstruct_data_path, dataset_type + '.csv') # file
         if not Path(file_name).exists():
-            print(
-                f'{dataset_type} data is not available. Tried to find at:', file_name)
+            print(f'{dataset_type} data is not available. Tried to find at:', file_name)
             download_data()
 
+        if dataset_type == 'dev': # github repo has validation data as dev file name
+            dataset_type = 'validation'
         # load dataset
         ds_dict = load_dataset("csv", data_files = file_name)
         
@@ -185,17 +188,19 @@ if __name__ == "__main__":
 
         training_args = TrainingArguments(
             output_dir=checkpoints_out_dir,
-            learning_rate=2e-5,
+            learning_rate=1e-6,
             per_device_train_batch_size=5,
             per_device_eval_batch_size=5,
             num_train_epochs=10,
-            weight_decay=0.1,
+            weight_decay=0.0001,
+            gradient_accumulation_steps=4,
+            #lr_scheduler_type="cosine",
             evaluation_strategy="epoch",
             save_strategy="epoch",
             load_best_model_at_end=True,
             logging_steps=50,
             save_total_limit = 2, # to limit saving checkpoints
-            seed = 42 # set seed here
+            seed = 40 # set seed here
         )
 
         finetune(L_model, training_args, train_data, valid_data, log_dynamics=log_dynamics, cartography_splits=cartography_splits, log_dynamics_dir=log_dynamics_dir)

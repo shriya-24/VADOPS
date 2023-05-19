@@ -12,6 +12,7 @@
   "prompts":{
   	"prompt_llm":"ChatGPT",
 	"prompt_type":1,
+    "eg_type":"recall"
 	"num_gen":50,
     "num_eg":1,
     "num_good":0,

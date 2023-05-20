@@ -75,16 +75,30 @@ def workflow(config):
     if config['dataset_name'] == 'clinc_oos':
         dataset = load_dataset('clinc_oos', config['dataset_subset'])
         dataset = dataset.rename_column("intent", "label")
+        print('Dataset:', dataset)
+        print('labels:', dataset['train'].features['label'].names)
 
         # filtering the oos label
         if "filter_oos_label" in config and config["filter_oos_label"]:
             print('filtering the oos label')
             dataset = dataset.filter(lambda example: example['label'] != 42) # oos label index is 42
-            labels = dataset.features['label'].names
-            labels = labels.remove('oos')
-            for __type__ in dataset:
-                dataset[__type__] = dataset.cast_column('label', ClassLabel(names=labels))
 
+            # updating dataset classlabel
+            for __type__ in dataset:
+                labels = dataset[__type__].features['label'].names
+                labels.remove('oos')
+                dataset[__type__] = dataset[__type__].cast_column('label', ClassLabel(names=labels))
+
+            # updating the label index for each examples
+            def update_index(example):
+                if example['label'] > 42:
+                    example['label'] -= 1
+                return example
+
+            dataset = dataset.map(update_index)
+            print('filtered oos Dataset:', dataset)
+            print('labels after oos is filtered:', dataset['train'].features['label'].names)
+                
     elif config['dataset_name'] == 'snips':
         dataset = load_snips()
     elif config['dataset_name'] == 'CSAbstruct':

@@ -11,12 +11,12 @@
   "model_name_or_path": "roberta-base",
   "prompts":{
   	"prompt_llm":"ChatGPT",
-	"prompt_type":1,
-    "eg_type":"recall",
+	  "prompt_type":1,
+    "eg_type":"f1-score",
 	  "num_gen":20,
     "num_eg":2,
-    "num_good":0,
-    "num_bad":2
+    "num_good":2,
+    "num_bad":0
   },
   "training_args": {
     "learning_rate":2e-5,

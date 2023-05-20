@@ -87,7 +87,7 @@ def get_worst_examples(intent_class_file, intent_examples_file,num_good,num_bad,
     for intent in worst_intents:
         # TODO: decide whether num_good is greater than the number of generated examples
         # print(intent_example_df_good[intent_example_df_good['True Label'] == intent].Text.tolist())
-        print(f"Num Good: {num_good} Available: {len(intent_example_df_good[intent_example_df_good['True Label'] == intent].Text.tolist())}")
+        #print(f"Num Good: {num_good} Available: {len(intent_example_df_good[intent_example_df_good['True Label'] == intent].Text.tolist())}")
         if len(intent_example_df_good[intent_example_df_good['True Label'] == intent].Text.tolist()) < num_good:
             num_good = len(intent_example_df_good[intent_example_df_good['True Label'] == intent].Text.tolist())
         selected_examples = random.sample(intent_example_df_good[intent_example_df_good['True Label'] == intent].Text.tolist(),num_good)
@@ -118,7 +118,11 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
             prompt = prompt.replace("{intent_name}",intentname)
     else:
         prompt = json_object[prompt_fill][intentname]
-    prompt = prompt.replace("{num_gen}",str(num_gen))
+
+    if prompttype != 7:
+        prompt = prompt.replace("{num_gen}",str(num_gen))
+    else:
+        prompt = prompt.replace("{num_gen}",str(num_gen+len(worst_intent_labels[intentname])))
     if prompttype != 4:
         examples = ""
         if num_eg > 0:
@@ -127,11 +131,12 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
             for idx,eg in enumerate(worst_intent_labels[intentname]):
                 if idx+1 > num_eg:
                     break
-                examples += f"{eg}\n"
+                examples += f"{idx+1}. {eg}\n"
             prompt = prompt.replace("{examples}",examples)
         else:
             prompt = prompt.replace("{examples}","")
     promptlist.append(prompt)
+    print(promptlist)
     return promptlist
         
 
@@ -169,7 +174,7 @@ def get_more_data(prompttype,ic_path,ice_path,num_good,num_bad,num_eg = 0,num_ge
 
         #lines to add to dataset train
         lines = []
-        # print(completion.choices[0].message.content.splitlines())
+        print(completion.choices[0].message.content.splitlines())
         for l in completion.choices[0].message.content.splitlines():
             l = l.strip()
             if re.match('^\d', l):

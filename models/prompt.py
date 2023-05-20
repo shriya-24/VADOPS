@@ -119,7 +119,7 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
     else:
         prompt = json_object[prompt_fill][intentname]
 
-    if prompttype != 5:
+    if prompttype != 7:
         prompt = prompt.replace("{num_gen}",str(num_gen))
     else:
         prompt = prompt.replace("{num_gen}",str(num_gen+len(worst_intent_labels[intentname])))

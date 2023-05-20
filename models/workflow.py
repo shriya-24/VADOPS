@@ -2,7 +2,7 @@ import os
 import json
 
 from datetime import datetime
-from datasets import Dataset, concatenate_datasets, load_dataset
+from datasets import Dataset, concatenate_datasets, load_dataset, ClassLabel
 from transformers import TrainingArguments
 from transformers import pipeline
 
@@ -17,6 +17,8 @@ from CSAbstruct import load_data as load_CSAbstruct
 
 from sys import argv as args
 from pathlib import Path
+
+from time import time
 
 # variables
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
@@ -67,21 +69,45 @@ def workflow(config):
     pretrained_model_name_or_path: str = config['model_name_or_path']
     training_args = config['training_args']
     prompt_args = config["prompts"]    
+    
     ## load dataset
     dataset = None
     if config['dataset_name'] == 'clinc_oos':
         dataset = load_dataset('clinc_oos', config['dataset_subset'])
         dataset = dataset.rename_column("intent", "label")
+        print('Dataset:', dataset)
+        print('labels:', dataset['train'].features['label'].names)
 
         # filtering the oos label
         if "filter_oos_label" in config and config["filter_oos_label"]:
             print('filtering the oos label')
             dataset = dataset.filter(lambda example: example['label'] != 42) # oos label index is 42
 
+            # updating dataset classlabel
+            for __type__ in dataset:
+                labels = dataset[__type__].features['label'].names
+                labels.remove('oos')
+                dataset[__type__] = dataset[__type__].cast_column('label', ClassLabel(names=labels))
+
+            # updating the label index for each examples
+            def update_index(example):
+                if example['label'] > 42:
+                    example['label'] -= 1
+                return example
+
+            dataset = dataset.map(update_index)
+            print('filtered oos Dataset:', dataset)
+            print('labels after oos is filtered:', dataset['train'].features['label'].names)
+                
     elif config['dataset_name'] == 'snips':
         dataset = load_snips()
     elif config['dataset_name'] == 'CSAbstruct':
         dataset = load_CSAbstruct()
+    
+    # attr specifing whether to initiate the model from default or prev step best model at start of the step
+    reinitiate_model_to_default = True
+    if reinitiate_model_to_default in config:
+        reinitiate_model_to_default = config['reinitiate_model_to_default']
     
     if not dataset:
         raise Exception("Datasets are improper. Please provide valid ones")
@@ -114,9 +140,9 @@ def workflow(config):
     # itearate
     for curr_step in range(steps):
         print('current workflow step', curr_step)
-        
         curr_step = str(curr_step)
-
+        
+        step_start_time = time()
         # create folders for models, intent_class_analysis, dynamics, sentence_entropy, data, data_maps
         model_dir = os.path.join(workflow_dir, curr_step,  'model')
         intent_analysis_dir = os.path.join(workflow_dir, curr_step, 'intent_analysis')
@@ -132,10 +158,14 @@ def workflow(config):
 
         # finetune
         print('finetuning')
+        finetune_start_time = time()
         training_args['output_dir'] = str(model_dir)
         model_path = finetune(pretrained_model_name_or_path, TrainingArguments(**training_args), train_data, eval_data, True, config['dynamics'], dynamics_dir)
+        finetune_end_time = time()
+        print(f"finetune execution time:{finetune_end_time - finetune_start_time} seconds or {(finetune_end_time - finetune_start_time) / 60} mins")
 
         print('plotting data Maps')
+        plotting_DataMap_start_time = time()
         # plot dataMaps
         for dataset_type in config['dynamics']:
             dataset_dynamics_dir = os.path.join(dynamics_dir, dataset_type)
@@ -145,8 +175,12 @@ def workflow(config):
             title += f"_{dataset_type}_set"
             plot_data_map(dataset_dynamics_dir, dataMaps_dir, title)
 
+        plotting_DataMap_end_time = time()
+        print(f"plotting data map execution time:{plotting_DataMap_end_time - plotting_DataMap_start_time} seconds or {(plotting_DataMap_end_time - plotting_DataMap_start_time) / 60} mins")
+
         # eval
         print('run evaluation')
+        eval_start_time = time()
         for _set in config['eval']:            
             intent_analysis_file_path = os.path.join(intent_analysis_dir, f'{_set}.csv')
             dataset = None
@@ -162,9 +196,12 @@ def workflow(config):
             acc, macro_f1, weighted_f1 =  eval(dataset, model_path, intent_analysis_file_path)
             metrics_df.loc[len(metrics_df)] = [curr_step, acc, macro_f1, weighted_f1]
             metrics_df.to_csv(metrics_file_path, index=False)
+        eval_end_time = time()
+        print(f"eval execution time:{eval_end_time - eval_start_time} seconds or {(eval_end_time - eval_start_time) / 60} mins")
 
         # calculate entropy
         print('calculate cross entropy')
+        entropy_start_time = time()
         for _set in config['entropy']:
             entropy_file_path = os.path.join(entropy_dir, f'{_set}.csv')
             dataset = None
@@ -177,9 +214,13 @@ def workflow(config):
                 dataset = test_data
 
             calc_entropy_loss(dataset, model_path, entropy_file_path)
+        
+        entropy_end_time = time()
+        print(f"sentence cross entropy execution time:{entropy_end_time - entropy_start_time} seconds or {(entropy_end_time - entropy_start_time) / 60} mins")
 
         # generate data
         print('generate data')
+        data_generation_start_time = time()
         data_from = config['generate_data_from']
         prompt_llm = prompt_args["prompt_llm"]
         eg_type = prompt_args["eg_type"]
@@ -192,6 +233,9 @@ def workflow(config):
         entropy_file_path = os.path.join(entropy_dir, f'{data_from}.csv')
 
         data_dict = get_more_data(prompt_type, intent_analysis_file_path, entropy_file_path,num_good,num_bad,num_eg=num_eg,num_gen=num_gen,eg_type=eg_type)
+
+        data_generation_end_time = time()
+        print(f"Data generation execution time:{data_generation_end_time - data_generation_start_time} seconds or {(data_generation_end_time - data_generation_start_time) / 60} mins")
 
         data_df = pd.DataFrame(columns= ['text', 'true_label'])
         for intent in data_dict:
@@ -220,16 +264,21 @@ def workflow(config):
         print('appending generate data to train set')
         ## formatting to match the train set
         correct_df = data_df[(data_df['true_label'] == data_df['predicted_label'])]
-        correct_df.drop('predicted_label', axis=1)
+        correct_df = correct_df.drop('predicted_label', axis=1)
         correct_df = correct_df.rename(columns={'true_label': 'label'})
         correct_df['label'] = correct_df['label'].apply(lambda label : classifier.model.config.label2id[label])
+        correct_df = correct_df.reset_index(drop=True) # resetting the index
 
         ## create dataset for df
         aug_dataset = Dataset.from_pandas(correct_df)
-        aug_dataset.features["label"] = train_data.features["label"]
+        aug_dataset = aug_dataset.cast_column('label', train_data.features["label"]) # casting the column
 
         train_data = concatenate_datasets([train_data, aug_dataset])
-        pretrained_model_name_or_path = model_path
+        if not reinitiate_model_to_default:
+            pretrained_model_name_or_path = model_path
+
+        step_end_time = time()
+        print(f"step {curr_step} exection time:{step_end_time - step_start_time} seconds or {(step_end_time - step_start_time) / 60} mins")
 
 if __name__ == "__main__":
     if len(args) < 2 or not os.path.exists(args[1]):

@@ -109,7 +109,7 @@ def eval(dataset: Dataset, checkpoints_out_dir: str, predictions_out_dir: str):
                    for label in dataset['label']]
 
     # generating report
-    report = classification_report(true_labels, predicted_labels, output_dict=True)
+    report = classification_report(true_labels, predicted_labels, output_dict=True, zero_division=1)
 
     # report has three root variables 1. accuracy 2. macro avg 3. weighted avg
     macro_avg_f1_score = report['macro avg']['f1-score']

@@ -2,7 +2,7 @@
   "dataset_name": "snips",
   "pipeline_task": "text-classification",
   "workflow_output_dir": "../output",
-  "steps": 5,
+  "steps": 3,
   "dynamics": ["train", "validation"],
   "eval" : ["train", "validation", "test"],
   "entropy": ["train", "validation", "test"],
@@ -11,8 +11,11 @@
   "prompts":{
   	"prompt_llm":"ChatGPT",
 	  "prompt_type":1,
-	  "num_gen":50,
-    "num_eg":1
+    "eg_type":"f1-score",
+	  "num_gen":20,
+    "num_eg":2,
+    "num_good":2,
+    "num_bad":0
   },
   "training_args": {
     "learning_rate":2e-5,
@@ -25,5 +28,6 @@
     "load_best_model_at_end": true,
     "save_total_limit" : 2,
     "seed": 42
-  }
+  },
+  "reinitiate_model_to_default": true
 }

@@ -2,7 +2,7 @@
     "dataset_name": "CSAbstruct",
     "pipeline_task": "text-classification",
     "workflow_output_dir": "../output",
-    "steps": 5,
+    "steps": 3,
     "dynamics": ["train", "validation"],
     "eval" : ["train", "validation", "test"],
     "entropy": ["train", "validation", "test"],
@@ -26,6 +26,7 @@
       "load_best_model_at_end": true,
       "save_total_limit" : 2,
       "seed": 40
-    }
+    },
+    "reinitiate_model_to_default": true
   }
   

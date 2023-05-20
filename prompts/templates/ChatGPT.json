@@ -3,7 +3,7 @@
 	"Write {num_gen} questions or statements with the intent of \"{intent_name}\" for the intent classification task.\n{examples}"
 ],
 "prompt2":[
-	"An Intent is provided: {intent_name}\n{examples}The {entity} flawlessly constructs {num_gen} questions as sentences with the given intent:"
+	"An Intent is provided: {intent_name}\n{examples}The intent classification expert flawlessly constructs {num_gen} questions as sentences with the given intent:"
 ],
 "prompt3":[
 	"What does the \"{intent_name}\" Intent mean in the intent classification task? Explain in two sentences",

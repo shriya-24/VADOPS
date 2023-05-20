@@ -264,13 +264,14 @@ def workflow(config):
         print('appending generate data to train set')
         ## formatting to match the train set
         correct_df = data_df[(data_df['true_label'] == data_df['predicted_label'])]
-        correct_df.drop('predicted_label', axis=1)
+        correct_df = correct_df.drop('predicted_label', axis=1)
         correct_df = correct_df.rename(columns={'true_label': 'label'})
         correct_df['label'] = correct_df['label'].apply(lambda label : classifier.model.config.label2id[label])
+        correct_df = correct_df.reset_index(drop=True) # resetting the index
 
         ## create dataset for df
         aug_dataset = Dataset.from_pandas(correct_df)
-        aug_dataset.features["label"] = train_data.features["label"]
+        aug_dataset = aug_dataset.cast_column('label', train_data.features["label"]) # casting the column
 
         train_data = concatenate_datasets([train_data, aug_dataset])
         if not reinitiate_model_to_default:

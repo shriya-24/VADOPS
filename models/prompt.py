@@ -51,18 +51,18 @@ def get_bad_examples(intent_eg,intent_example_df,intent,num_bad,eg_type="recall"
     return intent_eg
     
 
-def get_worst_examples(intent_class_file, intent_examples_file,num_good,num_bad,eg_type="recall"):
+def get_worst_examples(intent_class_file, intent_examples_file,num_good,num_bad,eg_type="recall", threshold = 1):
     random.seed(42)
     intent_class_df = pd.read_csv(intent_class_file,sep=',')
     intent_example_df = pd.read_csv(intent_examples_file,sep=',')
 
     # Currently doing only for worst performing classes
     if eg_type == "recall":
-        intent_class_df = intent_class_df[(intent_class_df.loc[:,"recall"] <1) & (intent_class_df.label != "oos")]
+        intent_class_df = intent_class_df[(intent_class_df.loc[:,"recall"] < threshold) & (intent_class_df.label != "oos")]
     elif eg_type == "precision":
-        intent_class_df = intent_class_df[(intent_class_df.loc[:,"precision"] <1) & (intent_class_df.label != "oos")]
+        intent_class_df = intent_class_df[(intent_class_df.loc[:,"precision"] < threshold) & (intent_class_df.label != "oos")]
     elif eg_type == "f1-score":
-        intent_class_df = intent_class_df[(intent_class_df.loc[:,"f1-score"] <1) & (intent_class_df.label != "oos")]
+        intent_class_df = intent_class_df[(intent_class_df.loc[:,"f1-score"] < threshold) & (intent_class_df.label != "oos")]
     worst_intents = intent_class_df.label.tolist()
     
     # Currently for worst intent examples
@@ -140,11 +140,11 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
     return promptlist
         
 
-def get_more_data(prompttype,ic_path,ice_path,num_good,num_bad,num_eg = 0,num_gen=10,eg_type="recall"):
+def get_more_data(prompttype,ic_path,ice_path,num_good,num_bad,num_eg = 0,num_gen=10,eg_type="recall", threshold = 1):
 
     lines_to_add = {}
     # worst_intent_data = 
-    il = get_worst_examples(ic_path,ice_path,num_good,num_bad,eg_type)
+    il = get_worst_examples(ic_path,ice_path,num_good,num_bad,eg_type, threshold)
     intent_list = list(il.keys())
     # print(intent_list)
     # print(lines_to_add)

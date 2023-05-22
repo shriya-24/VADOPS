@@ -109,6 +109,12 @@ def workflow(config):
     if reinitiate_model_to_default in config:
         reinitiate_model_to_default = config['reinitiate_model_to_default']
     
+    # attr choose_threshold_dynamically - making to choose intents dynamically
+    choose_threshold_dynamically = False
+    threshold = 1
+    if choose_threshold_dynamically in config:
+        choose_threshold_dynamically = config['choose_threshold_dynamically']
+    
     if not dataset:
         raise Exception("Datasets are improper. Please provide valid ones")
         
@@ -231,8 +237,11 @@ def workflow(config):
         num_bad = int(prompt_args["num_bad"])
         intent_analysis_file_path = os.path.join(intent_analysis_dir, f'{data_from}.csv')
         entropy_file_path = os.path.join(entropy_dir, f'{data_from}.csv')
+        
+        if choose_threshold_dynamically:
+            threshold=macro_f1
 
-        data_dict = get_more_data(prompt_type, intent_analysis_file_path, entropy_file_path,num_good,num_bad,num_eg=num_eg,num_gen=num_gen,eg_type=eg_type)
+        data_dict = get_more_data(prompt_type, intent_analysis_file_path, entropy_file_path,num_good,num_bad,num_eg=num_eg,num_gen=num_gen,eg_type=eg_type, threshold=threshold)
 
         data_generation_end_time = time()
         print(f"Data generation execution time:{data_generation_end_time - data_generation_start_time} seconds or {(data_generation_end_time - data_generation_start_time) / 60} mins")

@@ -31,5 +31,6 @@
     "seed": 42
   },
   "filter_oos_label": true,
-  "reinitiate_model_to_default": true
+  "reinitiate_model_to_default": true,
+  "choose_threshold_dynamically": true
 }

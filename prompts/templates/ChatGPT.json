@@ -23,5 +23,19 @@
 ],
 "prompt6":[
     "Extract {num_gen} sentences from computer science abstracts taken from the semantic scholar corpus papers that appear in the {intent_name} section"
-]
+],
+"prompt8":[
+	"Write {num_gen} sentences from computer science paper abstracts that appear in the {intent_name} section.\n{examples}"
+],
+"prompt9":[
+	"What does the {intent_name} convey in a computer science abstract? Explain in two sentences",
+    "Great! Can you generate {num_gen} sentences from computer science abstracts conveying about the {intent_name}?\n{examples}"
+],
+"prompt10":{
+    "background":"You are a helpful voice assistant who is aware of multiple sections of a computer science abstract. The 'background' of a computer science abstract conveys the contextual information necessary for understanding the research within the field like machine learning, computer vision, natural language processing(NLP), internet of things(IoT), computer networking etc. It outlines the problem statement and highlights the gaps or limitations in previous work, setting the stage for the study.\n\nGiven the description of this section, give {num_gen} sentences from computer science abstracts that appear in the 'background' section.",
+    "objective":"You are a helpful voice assistant who is aware of multiple sections of a computer science abstract.The 'objective' of a computer abstract outlines the specific goals of the research, highlighting what the study aims to achieve or contribute to the field like machine learning, computer vision, natural language processing(NLP), internet of things(IoT), computer networking etc. The 'objective' section of an abstract typically provides a concise and clear statement that outlines the focus of the research. \n\nGiven the description of this section, give {num_gen} sentences from computer science abstracts that appear in the 'objective' section.",
+    "method":"You are a helpful voice assistant who is aware of multiple sections of a computer science abstract. The 'method' or 'methodology' of a computer science abstract conveys the approach or techniques used to conduct the research within the field like machine learning, computer vision, natural language processing(NLP), internet of things(IoT), computer networking etc. It explains the specific methods, algorithms, or experimental procedures employed to address the research objectives.\n\nGiven the description of this section, give {num_gen} sentences from computer science abstracts that appear in the 'method' section.",
+    "result":"You are a helpful voice assistant who is aware of multiple sections of a computer science abstract. The 'result' of a computer science abstract conveys the specific findings or outcomes of the research within the field like machine learning, computer vision, natural language processing(NLP), internet of things(IoT), computer networking etc. It presents the quantitative or qualitative data, experimental measurements, or observations obtained during the study.\n\nGiven the description of this section, give {num_gen} sentences from computer science abstracts that appear in the 'result' section.",
+    "other":"You are a helpful voice assistant who is aware of multiple sections of a computer science abstract. The 'other' section typically refers to a miscellaneous category where additional information, acknowledgments, hyperlinks, references or relevant details that do not fit into specific sections like objectives, methodology, results, or conclusions are included. This section provides an opportunity to address any remaining aspects of the research that may not have been covered elsewhere in the abstract.\n\nGiven the description of this section, give {num_gen} sentences from computer science abstracts that appear in the 'other' section."
+}
 }

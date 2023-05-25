@@ -106,7 +106,7 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
         json_object = json.load(openfile)
     
     prompt_fill = "prompt"+str(prompttype)
-    if prompttype != 4:
+    if prompttype != 4 and prompttype != 10:
         prompt = json_object[prompt_fill][0]
 
         if prompttype == 3:
@@ -114,7 +114,7 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
             promptlist.append(prompt)
             prompt = json_object[prompt_fill][1]
 
-    if prompttype != 4:
+    if prompttype != 4 and prompttype != 10:
             prompt = prompt.replace("{intent_name}",intentname)
     else:
         prompt = json_object[prompt_fill][intentname]
@@ -123,7 +123,7 @@ def construct_prompt(prompttype,promptLLM,intentname,worst_intent_labels,num_eg=
         prompt = prompt.replace("{num_gen}",str(num_gen))
     else:
         prompt = prompt.replace("{num_gen}",str(num_gen+len(worst_intent_labels[intentname])))
-    if prompttype != 4:
+    if prompttype != 4 and prompttype != 10:
         examples = ""
         if num_eg > 0:
             #TODO: Add a file reading functionality to fetch examples from highest cross entropy classes
